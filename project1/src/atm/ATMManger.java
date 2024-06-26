@@ -186,7 +186,7 @@ public class ATMManger {
 						}
 						money = list.get(index2).getBalance() + transfer;
 						list.get(index2).setBalance(money);
-						list.get(index2).getBankBook().add("이체 "+transfer+"원 | 잔고 : "+list.get(index2).getBalance()+"원");
+						list.get(index2).getBankBook().add(list.get(index).getName()+" "+transfer+"원 | 잔고 : "+list.get(index2).getBalance()+"원");
 						System.out.println("------------------------------");
 					default:
 						System.out.println("잘못된 메뉴입니다.");

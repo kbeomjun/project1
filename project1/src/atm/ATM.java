@@ -1,12 +1,17 @@
 package atm;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
-public class ATMManger {
+public class ATM {
 	private Scanner scan = new Scanner(System.in);
 	private List<Account> list = new ArrayList<Account>();
 	
@@ -20,7 +25,7 @@ public class ATMManger {
 	private void printMenu2() {
 		System.out.print("======계좌관리======\n"
 				+ "1. 비밀번호 변경\n"
-				+ "2. 계좌 해지\n"
+				+ "2. 계좌해지\n"
 				+ "3. 입금/출금/송금\n"
 				+ "4. 통장조회\n"
 				+ "5. 이전으로\n"
@@ -270,7 +275,7 @@ public class ATMManger {
 	}
 	
 	public void run() {
-		//String fileName = "";
+		String fileName = "src/atm/atm.txt";
 		//load(fileName);
 		int menu = 0;
 		do {
@@ -279,5 +284,36 @@ public class ATMManger {
 			runMenu(menu);
 		}while(menu != 3);
 		//save(fileName);
+	}
+	
+	public void save(String fileName) {
+		try {
+			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName));
+			oos.writeObject(list);
+		} catch (FileNotFoundException e) {
+			System.out.println("File Not Found");
+			e.printStackTrace();
+		} catch (IOException e) {
+			System.out.println("IO");
+			e.printStackTrace();
+		}
+	}
+	@SuppressWarnings("unchecked")
+	public void load(String fileName) {
+		try {
+			ObjectInputStream ios = new ObjectInputStream(new FileInputStream(fileName));
+			try {
+				list = (List<Account>) ios.readObject();
+			} catch (ClassNotFoundException e) {
+				System.out.println("Class Not Found");
+				e.printStackTrace();
+			}
+		} catch (FileNotFoundException e) {
+			System.out.println("File Not Found");
+			e.printStackTrace();
+		} catch (IOException e) {
+			System.out.println("IO");
+			e.printStackTrace();
+		}
 	}
 }

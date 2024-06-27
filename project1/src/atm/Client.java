@@ -1,6 +1,6 @@
 package atm;
 
-public class Main {
+public class Client {
 
 	public static void main(String[] args) {
 		ATM atm = new ATM();

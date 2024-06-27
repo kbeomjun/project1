@@ -1,11 +1,10 @@
 package atm;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -14,6 +13,8 @@ import java.util.regex.Pattern;
 public class ATM {
 	private Scanner scan = new Scanner(System.in);
 	private List<Account> list = new ArrayList<Account>();
+	private String ip = "192.168.30.22";
+	private int port = 5001;
 	
 	private void printMenu() {
 		System.out.print("======ATM======\n"
@@ -275,23 +276,25 @@ public class ATM {
 	}
 	
 	public void run() {
-		String fileName = "src/atm/atm.txt";
-		//load(fileName);
+		load();
 		int menu = 0;
 		do {
 			printMenu();
 			menu = scan.nextInt();
 			runMenu(menu);
 		}while(menu != 3);
-		//save(fileName);
+		save();
 	}
-	
-	public void save(String fileName) {
+	public void save() {
 		try {
-			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName));
+			Socket socket = new Socket(ip, port);
+			ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+			oos.writeUTF("save");
 			oos.writeObject(list);
-		} catch (FileNotFoundException e) {
-			System.out.println("File Not Found");
+			oos.flush();
+			oos.close();
+		} catch (UnknownHostException e) {
+			System.out.println("Unknown Host");
 			e.printStackTrace();
 		} catch (IOException e) {
 			System.out.println("IO");
@@ -299,17 +302,22 @@ public class ATM {
 		}
 	}
 	@SuppressWarnings("unchecked")
-	public void load(String fileName) {
+	public void load() {
 		try {
-			ObjectInputStream ios = new ObjectInputStream(new FileInputStream(fileName));
+			Socket socket = new Socket(ip, port);
+			ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+			oos.writeUTF("load");
+			oos.flush();
+			ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
 			try {
-				list = (List<Account>) ios.readObject();
+				list = (List<Account>)ois.readObject();
 			} catch (ClassNotFoundException e) {
 				System.out.println("Class Not Found");
 				e.printStackTrace();
 			}
-		} catch (FileNotFoundException e) {
-			System.out.println("File Not Found");
+			System.out.println(list);
+		} catch (UnknownHostException e) {
+			System.out.println("Unknown Host");
 			e.printStackTrace();
 		} catch (IOException e) {
 			System.out.println("IO");

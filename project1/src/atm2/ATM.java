@@ -12,7 +12,8 @@ import java.util.regex.Pattern;
 
 public class ATM {
 	private Scanner scan = new Scanner(System.in);
-	private String ip = "192.168.30.22";
+	//private String ip = "192.168.30.22";
+	private String ip = "192.168.0.2";
 	private int port = 5001;
 	
 	private void printMenu() {

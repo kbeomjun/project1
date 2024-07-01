@@ -12,7 +12,6 @@ public class ATM {
 	private Scanner scan = new Scanner(System.in);
 	private String ip = "192.168.30.2";
 	private int port = 5001;
-	
 	private void printMenu() {
 		System.out.print(
 				"==================ATM==================\n"
@@ -20,7 +19,6 @@ public class ATM {
 				+ "4. 입금      5. 출금     6. 송금\n"
 				+ "7. 통장조회   8. 업무종료   선택 : ");
 	}
-	
 	private void runMenu(int menu) {
 		System.out.println("------------------------------");
 		switch(menu) {

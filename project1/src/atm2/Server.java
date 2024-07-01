@@ -26,12 +26,12 @@ public class Server {
 				Date date = new Date();
 				SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
 				Socket socket = serverSocket.accept();
-				System.out.println("클라이언트가 접속했습니다.");
 				ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
 				ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
 				String type = ois.readUTF();
 				switch(type) {
 				case "insert":
+					System.out.println("계좌개설중...");
 					load(fileName);
 					int result = 0;
 					String accountNum = "";
@@ -51,13 +51,14 @@ public class Server {
 						String dateStr = format.format(date);
 						tmp.getBankBook().add(dateStr+" | 계좌개설 | 잔고 : 0원");
 						list.add(tmp);
-						System.out.println(list);
 					} catch (ClassNotFoundException e) {
 						e.printStackTrace();
 					}
 					save(fileName);
+					System.out.println(list);
 					break;
 				case "remove":
+					System.out.println("계좌해지중...");
 					load(fileName);
 					String search = ois.readUTF();
 					int index = findAccount(search);
@@ -76,8 +77,10 @@ public class Server {
 					}while(true);
 					list.remove(index);
 					save(fileName);
+					System.out.println(list);
 					break;
 				case "update":
+					System.out.println("비밀번호 변경중...");
 					load(fileName);
 					search = ois.readUTF();
 					index = findAccount(search);
@@ -97,8 +100,10 @@ public class Server {
 					String password = ois.readUTF();
 					list.get(index).setPassword(password);
 					save(fileName);
+					System.out.println(list);
 					break;
 				case "deposit":
+					System.out.println("입금중...");
 					load(fileName);
 					int deposit = ois.readInt();
 					if(deposit <= 0) {
@@ -123,8 +128,10 @@ public class Server {
 					String dateStr = format.format(date);
 					list.get(index).getBankBook().add(dateStr+" | 입금 "+deposit+"원 | 잔고 : "+list.get(index).getBalance()+"원");
 					save(fileName);
+					System.out.println(list);
 					break;
 				case "withdraw":
+					System.out.println("출금중...");
 					load(fileName);
 					search = ois.readUTF();
 					index = findAccount(search);
@@ -170,8 +177,10 @@ public class Server {
 						list.get(index).getBankBook().add(dateStr+" | 출금 "+withdraw+"원 | 잔고 : "+list.get(index).getBalance()+"원");
 						save(fileName);
 					}
+					System.out.println(list);
 					break;
 				case "transfer":
+					System.out.println("송금중...");
 					load(fileName);
 					search = ois.readUTF();
 					index = findAccount(search);
@@ -253,8 +262,10 @@ public class Server {
 						list.get(index2).getBankBook().add(dateStr+" | "+list.get(index).getName()+" "+transfer+"원 | 잔고 : "+list.get(index2).getBalance()+"원");
 						save(fileName);
 					}
+					System.out.println(list);
 					break;
-				case "check":	
+				case "check":
+					System.out.println("통장조회중...");
 					load(fileName);
 					search = ois.readUTF();
 					index = findAccount(search);
@@ -286,6 +297,7 @@ public class Server {
 					save(fileName);
 					break;
 				case "end":
+					System.out.println("접속해제");
 					oos.writeUTF("업무를 종료합니다.");
 					oos.flush();
 					save(fileName);

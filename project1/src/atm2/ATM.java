@@ -14,7 +14,7 @@ public class ATM {
 	private int port = 5001;
 	private void printMenu() {
 		System.out.print(
-				"==================ATM==================\n"
+				"================ATM================\n"
 				+ "1. 계좌개설   2. 계좌해지   3. 비밀번호 변경\n"
 				+ "4. 입금      5. 출금     6. 송금\n"
 				+ "7. 통장조회   8. 업무종료   선택 : ");

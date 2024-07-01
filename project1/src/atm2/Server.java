@@ -8,7 +8,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Server {
@@ -21,6 +23,8 @@ public class Server {
 		try {
 			ServerSocket serverSocket = new ServerSocket(port);
 			while(true) {
+				Date date = new Date();
+				SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
 				Socket socket = serverSocket.accept();
 				System.out.println("클라이언트가 접속했습니다.");
 				ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
@@ -44,7 +48,8 @@ public class Server {
 					oos.flush();
 					try {
 						Account tmp = (Account) ois.readObject();
-						tmp.getBankBook().add("계좌개설 | 잔고 : 0원");
+						String dateStr = format.format(date);
+						tmp.getBankBook().add(dateStr+" | 계좌개설 | 잔고 : 0원");
 						list.add(tmp);
 						System.out.println(list);
 					} catch (ClassNotFoundException e) {
@@ -115,7 +120,8 @@ public class Server {
 					list.get(index).setBalance(money);
 					oos.writeUTF(list.get(index).getName()+"님의 남은 잔고 : "+list.get(index).getBalance()+"원");
 					oos.flush();
-					list.get(index).getBankBook().add("입금 "+deposit+"원 | 잔고 : "+list.get(index).getBalance()+"원");
+					String dateStr = format.format(date);
+					list.get(index).getBankBook().add(dateStr+" | 입금 "+deposit+"원 | 잔고 : "+list.get(index).getBalance()+"원");
 					save(fileName);
 					break;
 				case "withdraw":
@@ -160,7 +166,8 @@ public class Server {
 						list.get(index).setBalance(money);
 						oos.writeUTF(list.get(index).getName()+"님의 남은 잔고 : "+list.get(index).getBalance()+"원");
 						oos.flush();
-						list.get(index).getBankBook().add("출금 "+withdraw+"원 | 잔고 : "+list.get(index).getBalance()+"원");
+						dateStr = format.format(date);
+						list.get(index).getBankBook().add(dateStr+" | 출금 "+withdraw+"원 | 잔고 : "+list.get(index).getBalance()+"원");
 						save(fileName);
 					}
 					break;
@@ -234,7 +241,8 @@ public class Server {
 						list.get(index).setBalance(money);
 						oos.writeUTF(list.get(index).getName()+"님의 남은 잔고 : "+list.get(index).getBalance()+"원");
 						oos.flush();
-						list.get(index).getBankBook().add("송금 "+transfer+"원 | 잔고 : "+list.get(index).getBalance()+"원");
+						dateStr = format.format(date);
+						list.get(index).getBankBook().add(dateStr+" | 송금 "+transfer+"원 | 잔고 : "+list.get(index).getBalance()+"원");
 						for(int i = 0; i < list.size(); i++) {
 							if(list.get(i).getAccountNum().equals(list2.get(index2).getAccountNum())) {
 								index2 = i;
@@ -242,7 +250,7 @@ public class Server {
 						}
 						money = list.get(index2).getBalance() + transfer;
 						list.get(index2).setBalance(money);
-						list.get(index2).getBankBook().add(list.get(index).getName()+" "+transfer+"원 | 잔고 : "+list.get(index2).getBalance()+"원");
+						list.get(index2).getBankBook().add(dateStr+" | "+list.get(index).getName()+" "+transfer+"원 | 잔고 : "+list.get(index2).getBalance()+"원");
 						save(fileName);
 					}
 					break;
@@ -309,41 +317,6 @@ public class Server {
 			}
 		}
 		return "1010-"+randomNum;
-	}
-	@SuppressWarnings("unchecked")
-	private static void send(ObjectOutputStream oos, String fileName) {
-		try {
-			ObjectInputStream fois = new ObjectInputStream(new FileInputStream(fileName));
-			list = (List<Account>)fois.readObject();
-			oos.writeObject(list);
-			oos.flush();
-		} catch (Exception e) {
-			try {
-				oos.writeObject(new ArrayList<String>());
-				oos.flush();
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-		}
-		System.out.println("[클라이언트가 접속했습니다.]");
-	}
-	@SuppressWarnings("unchecked")
-	private static void receive(ObjectInputStream ois, String fileName) {
-		try {
-			list = (List<Account>)ois.readObject();
-		} catch (Exception e) {
-			return;
-		}
-		try {
-			ObjectOutputStream foos = new ObjectOutputStream(new FileOutputStream(fileName));
-			for(int i = 0; i < list.size(); i++) {
-				System.out.println(list.get(i).toString());
-			}
-			foos.writeObject(list);
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
-		System.out.println("[서버에 저장했습니다.]");
 	}
 	public static void save(String fileName) {
 		try {

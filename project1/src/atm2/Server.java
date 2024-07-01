@@ -288,8 +288,6 @@ public class Server {
 		} catch (IOException e) {
 			System.out.println("IO");
 			e.printStackTrace();
-		} finally {
-			
 		}
 	}
 	private static int findAccount(String search) {

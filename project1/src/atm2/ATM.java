@@ -5,15 +5,12 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class ATM {
 	private Scanner scan = new Scanner(System.in);
-	//private String ip = "192.168.30.22";
-	private String ip = "192.168.0.2";
+	private String ip = "192.168.30.2";
 	private int port = 5001;
 	
 	private void printMenu() {

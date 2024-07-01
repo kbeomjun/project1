@@ -18,7 +18,6 @@ public class Server {
 	public static void main(String[] args) {
 		int port = 5001;
 		String fileName = "src/atm2/server.txt";
-		//load(fileName);
 		try {
 			ServerSocket serverSocket = new ServerSocket(port);
 			while(true) {
@@ -27,8 +26,9 @@ public class Server {
 				ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
 				ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
 				String type = ois.readUTF();
-				A:switch(type) {
+				switch(type) {
 				case "insert":
+					load(fileName);
 					int result = 0;
 					String accountNum = "";
 					do {
@@ -50,8 +50,10 @@ public class Server {
 					} catch (ClassNotFoundException e) {
 						e.printStackTrace();
 					}
+					save(fileName);
 					break;
 				case "remove":
+					load(fileName);
 					String search = ois.readUTF();
 					int index = findAccount(search);
 					oos.writeInt(index);
@@ -68,8 +70,10 @@ public class Server {
 						break;
 					}while(true);
 					list.remove(index);
+					save(fileName);
 					break;
 				case "update":
+					load(fileName);
 					search = ois.readUTF();
 					index = findAccount(search);
 					oos.writeInt(index);
@@ -87,8 +91,10 @@ public class Server {
 					}while(true);
 					String password = ois.readUTF();
 					list.get(index).setPassword(password);
+					save(fileName);
 					break;
 				case "deposit":
+					load(fileName);
 					int deposit = ois.readInt();
 					if(deposit <= 0) {
 						oos.writeUTF(deposit+"원은 입금할 수 없습니다.");
@@ -110,8 +116,10 @@ public class Server {
 					oos.writeUTF(list.get(index).getName()+"님의 남은 잔고 : "+list.get(index).getBalance()+"원");
 					oos.flush();
 					list.get(index).getBankBook().add("입금 "+deposit+"원 | 잔고 : "+list.get(index).getBalance()+"원");
+					save(fileName);
 					break;
 				case "withdraw":
+					load(fileName);
 					search = ois.readUTF();
 					index = findAccount(search);
 					oos.writeInt(index);
@@ -153,9 +161,11 @@ public class Server {
 						oos.writeUTF(list.get(index).getName()+"님의 남은 잔고 : "+list.get(index).getBalance()+"원");
 						oos.flush();
 						list.get(index).getBankBook().add("출금 "+withdraw+"원 | 잔고 : "+list.get(index).getBalance()+"원");
+						save(fileName);
 					}
 					break;
 				case "transfer":
+					load(fileName);
 					search = ois.readUTF();
 					index = findAccount(search);
 					oos.writeInt(index);
@@ -233,9 +243,11 @@ public class Server {
 						money = list.get(index2).getBalance() + transfer;
 						list.get(index2).setBalance(money);
 						list.get(index2).getBankBook().add(list.get(index).getName()+" "+transfer+"원 | 잔고 : "+list.get(index2).getBalance()+"원");
+						save(fileName);
 					}
 					break;
 				case "check":	
+					load(fileName);
 					search = ois.readUTF();
 					index = findAccount(search);
 					oos.writeInt(index);
@@ -263,10 +275,12 @@ public class Server {
 						oos.writeUTF((i+1)+". "+bankBook.get(i));
 						oos.flush();
 					}
+					save(fileName);
 					break;
 				case "end":
 					oos.writeUTF("업무를 종료합니다.");
 					oos.flush();
+					save(fileName);
 					break;
 				default:
 				}
@@ -274,8 +288,9 @@ public class Server {
 		} catch (IOException e) {
 			System.out.println("IO");
 			e.printStackTrace();
+		} finally {
+			
 		}
-		save(fileName);
 	}
 	private static int findAccount(String search) {
 		int index = -1;

@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 
 public class ATM {
 	private Scanner scan = new Scanner(System.in);
-	private String ip = "192.168.30.2";
+	private String ip = "192.168.30.5";
 	private int port = 5001;
 	private void printMenu() {
 		System.out.print(
@@ -49,10 +49,10 @@ public class ATM {
 				oos.flush();
 				System.out.println("계좌를 개설했습니다.");
 				System.out.println("------------------------------");
+				break;
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			break;
 		case 2:
 			try {
 				Socket socket = new Socket(ip, port);
@@ -369,12 +369,12 @@ public class ATM {
 				String result = ois.readUTF();
 				System.out.println(result);
 				System.out.println("------------------------------");
+				break;
 			} catch (UnknownHostException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			break;
 		default:
 			try {
 				Socket socket = new Socket(ip, port);

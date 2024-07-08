@@ -1,4 +1,4 @@
-package atm;
+package teamproject.v2;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -21,10 +21,12 @@ public class Account implements Serializable, Comparable<Account> {
 	private int balance;
 	private List<String> bankBook = new ArrayList<String>();
 	private String bank = "KH은행";
+	
 	@Override
 	public String toString() {
 		return bank+" "+accountNum+"(예금주:"+name+") 잔고 : "+balance+"원";
 	}
+	
 	@Override
 	public int compareTo(Account o) {
 		return accountNum.compareTo(o.accountNum);

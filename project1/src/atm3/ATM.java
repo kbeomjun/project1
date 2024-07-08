@@ -47,8 +47,15 @@ public class ATM {
 				Account tmp = new Account(accountNum, password, name, 0);
 				oos.writeObject(tmp);
 				oos.flush();
-				System.out.println("계좌를 개설했습니다.");
-				System.out.println("------------------------------");
+				String result = ois.readUTF();
+				if(result.equals("이미 등록된 이름과 비밀번호입니다.")) {
+					System.out.println(result);
+					break;
+				}
+				else {
+					System.out.println("계좌를 개설했습니다.");
+					System.out.println("------------------------------");
+				}
 				break;
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -132,8 +139,15 @@ public class ATM {
 				}while(true);
 				oos.writeUTF(password);
 				oos.flush();
-				System.out.println("비밀번호를 변경했습니다.");
-				System.out.println("------------------------------");
+				String result = ois.readUTF();
+				if(result.equals("동일한 비밀번호입니다.")) {
+					System.out.println(result);
+					break;
+				}
+				else {
+					System.out.println("비밀번호를 변경했습니다.");
+					System.out.println("------------------------------");
+				}
 				break;
 			} catch (UnknownHostException e) {
 				e.printStackTrace();

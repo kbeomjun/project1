@@ -46,6 +46,13 @@ public class Server extends Thread{
 				oos.flush();
 				try {
 					Account tmp = (Account) ois.readObject();
+					if(list.contains(tmp)) {
+						oos.writeUTF("이미 등록된 이름과 비밀번호입니다.");
+						oos.flush();
+						break;
+					}
+					oos.writeUTF("");
+					oos.flush();
 					String dateStr = format.format(date);
 					tmp.getBankBook().add(dateStr+" | 계좌개설 | 잔고 : 0원");
 					list.add(tmp);
@@ -96,6 +103,13 @@ public class Server extends Thread{
 					break;
 				}while(true);
 				String password = ois.readUTF();
+				if(list.get(index).getPassword().equals(password)) {
+					oos.writeUTF("동일한 비밀번호입니다.");
+					oos.flush();
+					break;
+				}
+				oos.writeUTF("");
+				oos.flush();
 				list.get(index).setPassword(password);
 				save(fileName);
 				System.out.println(list);

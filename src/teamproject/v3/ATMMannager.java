@@ -1,9 +1,8 @@
 package teamproject.v3;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,6 +20,8 @@ public class ATMMannager implements Program{
 	private String fileName = "src/teamproject/v3/ATM.txt";
 	private Date date = new Date();
 	private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+	private String ip = "192.168.30.211";
+	private int port = 4788;
 	
 	@Override
 	public void printMenu() {
@@ -34,21 +35,45 @@ public class ATMMannager implements Program{
 	@SuppressWarnings("unchecked")
 	@Override
 	public void load(String fileName) {
-		try(FileInputStream fis = new FileInputStream(fileName);
-			ObjectInputStream ois = new ObjectInputStream(fis)) {
-			list = (List<ATM>)ois.readObject();
+		// 소켓 생성
+		try {
+			Socket socket = new Socket(ip, port);
+
+			// ObjectInputStream/OutputStream 생성 (Socket)
+			ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+			ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
+
+			// oos를 이용해서 load 문자열 전송
+			oos.writeUTF("load");
+			oos.flush();
+
+			// ois를 이용해서 연락처 리스트를 저장
+			list = (List<ATM>) ois.readObject();
+
 		} catch (Exception e) {
-			System.out.println("예의 발생");
-		} 
+			e.printStackTrace();
+		}  
 	}
 	
 	@Override
 	public void save(String fileName) {
-		try(FileOutputStream fos = new FileOutputStream(fileName);
-			ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+		// 1. 소켓 생성
+		try {
+			Socket socket = new Socket(ip, port);
+			
+			// 소켓을 이용하여 ObjectOutputStream 객체 생성
+			ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());		
+			
+			// 2. save 문자열 전송
+			oos.writeUTF("save");
+			
+			// 3. 연락처 리스트를 전송
 			oos.writeObject(list);
+			oos.flush();
+			
 		} catch (Exception e) {
-			System.out.println("예외 발생");
+			System.out.println("예외 발생[저장]");
+			e.printStackTrace();
 		}
 	}
 	

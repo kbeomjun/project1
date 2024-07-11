@@ -63,10 +63,10 @@ public class Server extends Thread{
 				System.out.println(list);
 				break;
 			case "remove":
-				System.out.println("계좌해지중...");
 				load(fileName);
 				String search = ois.readUTF();
 				int index = findAccount(search);
+				System.out.println(list.get(index).getName()+"님이 계좌해지중...");
 				oos.writeInt(index);
 				oos.flush();
 				do {
@@ -85,10 +85,10 @@ public class Server extends Thread{
 				System.out.println(list);
 				break;
 			case "update":
-				System.out.println("비밀번호 변경중...");
 				load(fileName);
 				search = ois.readUTF();
 				index = findAccount(search);
+				System.out.println(list.get(index).getName()+"님이 비밀번호 변경중...");
 				oos.writeInt(index);
 				oos.flush();
 				do {
@@ -115,7 +115,6 @@ public class Server extends Thread{
 				System.out.println(list);
 				break;
 			case "deposit":
-				System.out.println("입금중...");
 				load(fileName);
 				int deposit = ois.readInt();
 				if(deposit <= 0) {
@@ -126,7 +125,8 @@ public class Server extends Thread{
 				oos.writeUTF("");
 				oos.flush();
 				search = ois.readUTF();
-				index = findAccount(search);
+				index = findAccount(search);				
+				System.out.println(list.get(index).getName()+"님이 입금중...");
 				oos.writeInt(index);
 				oos.flush();
 				if(index == -1) {
@@ -143,10 +143,10 @@ public class Server extends Thread{
 				System.out.println(list);
 				break;
 			case "withdraw":
-				System.out.println("출금중...");
 				load(fileName);
 				search = ois.readUTF();
 				index = findAccount(search);
+				System.out.println(list.get(index).getName()+"님이 출금중...");
 				oos.writeInt(index);
 				oos.flush();
 				if(index == -1) {
@@ -192,10 +192,10 @@ public class Server extends Thread{
 				System.out.println(list);
 				break;
 			case "transfer":
-				System.out.println("송금중...");
 				load(fileName);
 				search = ois.readUTF();
 				index = findAccount(search);
+				System.out.println(list.get(index).getName()+"님이 송금중...");
 				oos.writeInt(index);
 				oos.flush();
 				if(index == -1) {
@@ -277,10 +277,10 @@ public class Server extends Thread{
 				System.out.println(list);
 				break;
 			case "check":
-				System.out.println("통장조회중...");
 				load(fileName);
 				search = ois.readUTF();
 				index = findAccount(search);
+				System.out.println(list.get(index).getName()+"님이 통장조회중...");
 				oos.writeInt(index);
 				oos.flush();
 				if(index == -1) {

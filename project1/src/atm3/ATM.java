@@ -53,11 +53,15 @@ public class ATM {
 					break;
 				}
 				else {
+					System.out.println("계좌를 개설중입니다...");
+					Thread.sleep(2000);
 					System.out.println("계좌를 개설했습니다.");
 					System.out.println("------------------------------");
 				}
 				break;
 			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		case 2:
@@ -89,12 +93,16 @@ public class ATM {
 					}
 					break;
 				}while(true);
+				System.out.println("계좌를 해지중입니다...");
+				Thread.sleep(2000);
 				System.out.println("계좌를 해지했습니다.");
 				System.out.println("------------------------------");
 				break;
 			} catch (UnknownHostException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		case 3:
@@ -145,6 +153,8 @@ public class ATM {
 					break;
 				}
 				else {
+					System.out.println("비밀번호를 변경중입니다...");
+					Thread.sleep(2000);
 					System.out.println("비밀번호를 변경했습니다.");
 					System.out.println("------------------------------");
 				}
@@ -152,6 +162,8 @@ public class ATM {
 			} catch (UnknownHostException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		case 4:
@@ -179,14 +191,24 @@ public class ATM {
 					System.out.println("없는 계좌입니다.");
 					break;
 				}
+				System.out.println("입금중입니다...");
+				Thread.sleep(2000);
 				System.out.println(deposit+"원을 입금하였습니다.");
 				result = ois.readUTF();
 				System.out.println(result);
 				System.out.println("------------------------------");
+				System.out.print("돌아가려면 엔터를 입력하세요.");
+				scan.nextLine();
+				String enter = scan.nextLine();
+				if(enter.equals("\n")) {
+					break;
+				}
 				break;
 			} catch (UnknownHostException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		case 5:
@@ -234,15 +256,25 @@ public class ATM {
 						System.out.println(result);
 						break;
 					}
+					System.out.println("출금중입니다...");
+					Thread.sleep(2000);
 					System.out.println(withdraw+"원을 출금하였습니다.");
 					result = ois.readUTF();
 					System.out.println(result);
 					System.out.println("------------------------------");
+					System.out.print("돌아가려면 엔터를 입력하세요.");
+					scan.nextLine();
+					String enter = scan.nextLine();
+					if(enter.equals("\n")) {
+						break;
+					}
 				}
 				break;
 			} catch (UnknownHostException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		case 6:
@@ -313,14 +345,24 @@ public class ATM {
 					System.out.println(result);
 					break;
 				}
+				System.out.println("송금중입니다...");
+				Thread.sleep(2000);
 				System.out.println(transfer+"원을 송금하였습니다.");
 				result = ois.readUTF();
 				System.out.println(result);
 				System.out.println("------------------------------");
+				System.out.print("돌아가려면 엔터를 입력하세요.");
+				scan.nextLine();
+				String enter = scan.nextLine();
+				if(enter.equals("\n")) {
+					break;
+				}
 				break;
 			} catch (UnknownHostException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		case 7:
@@ -354,6 +396,8 @@ public class ATM {
 				}while(true);
 				String result = ois.readUTF();
 				System.out.println(result);
+				System.out.println("통장을 조회중입니다...");
+				Thread.sleep(2000);
 				System.out.println("============통장내역============");
 				int size = ois.readInt();
 				for(int i = 0; i < size; i++) {
@@ -371,6 +415,8 @@ public class ATM {
 			} catch (UnknownHostException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		case 8:

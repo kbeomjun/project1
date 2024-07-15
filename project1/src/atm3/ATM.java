@@ -31,8 +31,17 @@ public class ATM {
 				oos.flush();
 				String accountNum = ois.readUTF();
 				System.out.println("계좌번호 : "+accountNum);
-				System.out.print("예금주명 : ");
-				String name = scan.next();
+				String name = "";
+				do {
+					System.out.print("예금주명 : ");
+					name = scan.next();
+					String regex = "^[ㄱ-ㅎ가-힣]{2,5}$";
+					if(!Pattern.matches(regex, name)) {
+						System.out.println("잘못된 이름입니다. 다시 입력하세요.");
+						continue;
+					}
+					break;
+				}while(true);
 				String password = "";
 				do {
 					System.out.print("비밀번호(4자리) : ");
@@ -71,8 +80,23 @@ public class ATM {
 				ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
 				oos.writeUTF("remove");
 				oos.flush();
-				System.out.print("계좌번호 혹은 예금주명 : ");
-				String search = scan.next();
+				String result = ois.readUTF();
+				if(result.equals("등록된 계좌가 없습니다.")) {
+					System.out.println(result);
+					break;
+				}
+				String search = "";
+				do {
+					System.out.print("계좌번호 혹은 예금주명 : ");
+					search = scan.next();
+					String regex = "^[ㄱ-ㅎ가-힣]{2,5}$";
+					String regex2 = "^1010-\\d{4}$";
+					if(!Pattern.matches(regex, search) && !Pattern.matches(regex2, search)) {
+						System.out.println("잘못된 계좌번호 혹은 이름입니다. 다시 입력하세요.");
+						continue;
+					}
+					break;
+				}while(true);
 				oos.writeUTF(search);
 				oos.flush();
 				int index = ois.readInt();
@@ -112,8 +136,23 @@ public class ATM {
 				ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
 				oos.writeUTF("update");
 				oos.flush();
-				System.out.print("계좌번호 혹은 예금주명 : ");
-				String search = scan.next();
+				String result = ois.readUTF();
+				if(result.equals("등록된 계좌가 없습니다.")) {
+					System.out.println(result);
+					break;
+				}
+				String search = "";
+				do {
+					System.out.print("계좌번호 혹은 예금주명 : ");
+					search = scan.next();
+					String regex = "^[ㄱ-ㅎ가-힣]{2,5}$";
+					String regex2 = "^1010-\\d{4}$";
+					if(!Pattern.matches(regex, search) && !Pattern.matches(regex2, search)) {
+						System.out.println("잘못된 계좌번호 혹은 이름입니다. 다시 입력하세요.");
+						continue;
+					}
+					break;
+				}while(true);
 				oos.writeUTF(search);
 				oos.flush();
 				int index = ois.readInt();
@@ -147,7 +186,7 @@ public class ATM {
 				}while(true);
 				oos.writeUTF(password);
 				oos.flush();
-				String result = ois.readUTF();
+				result = ois.readUTF();
 				if(result.equals("동일한 비밀번호입니다.")) {
 					System.out.println(result);
 					break;
@@ -173,17 +212,42 @@ public class ATM {
 				ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
 				oos.writeUTF("deposit");
 				oos.flush();
-				System.out.print("입금할 금액 : ");
-				int deposit = scan.nextInt();
+				String result = ois.readUTF();
+				if(result.equals("등록된 계좌가 없습니다.")) {
+					System.out.println(result);
+					break;
+				}
+				String str = "";
+				do {
+					System.out.print("입금할 금액 : ");
+					str = scan.next();
+					String regex = "^\\d{0,9}$";
+					if(!Pattern.matches(regex, str)) {
+						System.out.println("올바른 금액을 입력하세요.");
+						continue;
+					}
+					break;
+				}while(true);
+				int deposit = Integer.parseInt(str);
 				oos.writeInt(deposit);
 				oos.flush();
-				String result = ois.readUTF();
+				result = ois.readUTF();
 				if(result.equals(deposit+"원은 입금할 수 없습니다.")) {
 					System.out.println(result);
 					break;
 				}
-				System.out.print("계좌번호 혹은 예금주명 : ");
-				String search = scan.next();
+				String search = "";
+				do {
+					System.out.print("계좌번호 혹은 예금주명 : ");
+					search = scan.next();
+					String regex = "^[ㄱ-ㅎ가-힣]{2,5}$";
+					String regex2 = "^1010-\\d{4}$";
+					if(!Pattern.matches(regex, search) && !Pattern.matches(regex2, search)) {
+						System.out.println("잘못된 계좌번호 혹은 이름입니다. 다시 입력하세요.");
+						continue;
+					}
+					break;
+				}while(true);
 				oos.writeUTF(search);
 				oos.flush();
 				int index = ois.readInt();
@@ -218,8 +282,23 @@ public class ATM {
 				ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
 				oos.writeUTF("withdraw");
 				oos.flush();
-				System.out.print("계좌번호 혹은 예금주명 : ");
-				String search = scan.next();
+				String result = ois.readUTF();
+				if(result.equals("등록된 계좌가 없습니다.")) {
+					System.out.println(result);
+					break;
+				}
+				String search = "";
+				do {
+					System.out.print("계좌번호 혹은 예금주명 : ");
+					search = scan.next();
+					String regex = "^[ㄱ-ㅎ가-힣]{2,5}$";
+					String regex2 = "^1010-\\d{4}$";
+					if(!Pattern.matches(regex, search) && !Pattern.matches(regex2, search)) {
+						System.out.println("잘못된 계좌번호 혹은 이름입니다. 다시 입력하세요.");
+						continue;
+					}
+					break;
+				}while(true);
 				oos.writeUTF(search);
 				oos.flush();
 				int index = ois.readInt();
@@ -240,15 +319,25 @@ public class ATM {
 					}
 					break;
 				}while(true);
-				String result = ois.readUTF();
+				result = ois.readUTF();
 				if(result.equals("잔액이 0원이므로 출금할 수 없습니다.")) {
 					System.out.println(result);
 				}
 				else {
 					int withdraw = 0;
 					result = ois.readUTF();
-					System.out.print(result);
-					withdraw = scan.nextInt();
+					String str = "";
+					do {
+						System.out.print(result);
+						str = scan.next();
+						String regex = "^\\d{0,9}$";
+						if(!Pattern.matches(regex, str)) {
+							System.out.println("올바른 금액을 입력하세요.");
+							continue;
+						}
+						break;
+					}while(true);
+					withdraw = Integer.parseInt(str);
 					oos.writeInt(withdraw);
 					oos.flush();
 					result = ois.readUTF();
@@ -284,8 +373,23 @@ public class ATM {
 				ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
 				oos.writeUTF("transfer");
 				oos.flush();
-				System.out.print("계좌번호 혹은 예금주명 : ");
-				String search = scan.next();
+				String result = ois.readUTF();
+				if(result.equals("등록된 계좌가 없습니다.")) {
+					System.out.println(result);
+					break;
+				}
+				String search = "";
+				do {
+					System.out.print("계좌번호 혹은 예금주명 : ");
+					search = scan.next();
+					String regex = "^[ㄱ-ㅎ가-힣]{2,5}$";
+					String regex2 = "^1010-\\d{4}$";
+					if(!Pattern.matches(regex, search) && !Pattern.matches(regex2, search)) {
+						System.out.println("잘못된 계좌번호 혹은 이름입니다. 다시 입력하세요.");
+						continue;
+					}
+					break;
+				}while(true);
 				oos.writeUTF(search);
 				oos.flush();
 				int index = ois.readInt();
@@ -306,7 +410,7 @@ public class ATM {
 					}
 					break;
 				}while(true);
-				String result = ois.readUTF();
+				result = ois.readUTF();
 				if(result.equals("잔액이 0원이므로 출금할 수 없습니다.")) {
 					System.out.println(result);
 					break;
@@ -329,15 +433,24 @@ public class ATM {
 				int index2 = scan.nextInt() - 1;
 				oos.write(index2);
 				oos.flush();
-				
 				int transfer = 0;
 				result = ois.readUTF();
 				if(result.equals("번호를 잘못선택했습니다.")) {
 					System.out.println(result);
 					break;
 				}
-				System.out.print(result);
-				transfer = scan.nextInt();
+				String str = "";
+				do {
+					System.out.print(result);
+					str = scan.next();
+					String regex = "^\\d{0,9}$";
+					if(!Pattern.matches(regex, str)) {
+						System.out.println("올바른 금액을 입력하세요.");
+						continue;
+					}
+					break;
+				}while(true);
+				transfer = Integer.parseInt(str);
 				oos.writeInt(transfer);
 				oos.flush();
 				result = ois.readUTF();
@@ -372,8 +485,23 @@ public class ATM {
 				ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
 				oos.writeUTF("check");
 				oos.flush();
-				System.out.print("계좌번호 혹은 예금주명 : ");
-				String search = scan.next();
+				String result = ois.readUTF();
+				if(result.equals("등록된 계좌가 없습니다.")) {
+					System.out.println(result);
+					break;
+				}
+				String search = "";
+				do {
+					System.out.print("계좌번호 혹은 예금주명 : ");
+					search = scan.next();
+					String regex = "^[ㄱ-ㅎ가-힣]{2,5}$";
+					String regex2 = "^1010-\\d{4}$";
+					if(!Pattern.matches(regex, search) && !Pattern.matches(regex2, search)) {
+						System.out.println("잘못된 계좌번호 혹은 이름입니다. 다시 입력하세요.");
+						continue;
+					}
+					break;
+				}while(true);
 				oos.writeUTF(search);
 				oos.flush();
 				int index = ois.readInt();
@@ -394,7 +522,7 @@ public class ATM {
 					}
 					break;
 				}while(true);
-				String result = ois.readUTF();
+				result = ois.readUTF();
 				System.out.println(result);
 				System.out.println("통장을 조회중입니다...");
 				Thread.sleep(2000);

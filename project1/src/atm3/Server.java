@@ -63,8 +63,14 @@ public class Server extends Thread{
 				System.out.println(list);
 				break;
 			case "remove":
-				System.out.println("계좌해지중...");
 				load(fileName);
+				if(list.size() == 0) {
+					oos.writeUTF("등록된 계좌가 없습니다.");
+					oos.flush();
+					break;
+				}
+				oos.writeUTF("");
+				oos.flush();
 				String search = ois.readUTF();
 				int index = findAccount(search);
 				oos.writeInt(index);
@@ -80,13 +86,20 @@ public class Server extends Thread{
 					oos.flush();
 					break;
 				}while(true);
+				System.out.println(list.get(index).getName()+"님이 계좌해지중...");
 				list.remove(index);
 				save(fileName);
 				System.out.println(list);
 				break;
 			case "update":
-				System.out.println("비밀번호 변경중...");
 				load(fileName);
+				if(list.size() == 0) {
+					oos.writeUTF("등록된 계좌가 없습니다.");
+					oos.flush();
+					break;
+				}
+				oos.writeUTF("");
+				oos.flush();
 				search = ois.readUTF();
 				index = findAccount(search);
 				oos.writeInt(index);
@@ -110,13 +123,20 @@ public class Server extends Thread{
 				}
 				oos.writeUTF("");
 				oos.flush();
+				System.out.println(list.get(index).getName()+"님이 비밀번호 변경중...");
 				list.get(index).setPassword(password);
 				save(fileName);
 				System.out.println(list);
 				break;
 			case "deposit":
-				System.out.println("입금중...");
 				load(fileName);
+				if(list.size() == 0) {
+					oos.writeUTF("등록된 계좌가 없습니다.");
+					oos.flush();
+					break;
+				}
+				oos.writeUTF("");
+				oos.flush();
 				int deposit = ois.readInt();
 				if(deposit <= 0) {
 					oos.writeUTF(deposit+"원은 입금할 수 없습니다.");
@@ -126,12 +146,13 @@ public class Server extends Thread{
 				oos.writeUTF("");
 				oos.flush();
 				search = ois.readUTF();
-				index = findAccount(search);
+				index = findAccount(search);				
 				oos.writeInt(index);
 				oos.flush();
 				if(index == -1) {
 					break;
 				}
+				System.out.println(list.get(index).getName()+"님이 입금중...");
 				int money = 0;
 				money = list.get(index).getBalance() + deposit;
 				list.get(index).setBalance(money);
@@ -143,8 +164,14 @@ public class Server extends Thread{
 				System.out.println(list);
 				break;
 			case "withdraw":
-				System.out.println("출금중...");
 				load(fileName);
+				if(list.size() == 0) {
+					oos.writeUTF("등록된 계좌가 없습니다.");
+					oos.flush();
+					break;
+				}
+				oos.writeUTF("");
+				oos.flush();
 				search = ois.readUTF();
 				index = findAccount(search);
 				oos.writeInt(index);
@@ -181,6 +208,7 @@ public class Server extends Thread{
 					}
 					oos.writeUTF("");
 					oos.flush();
+					System.out.println(list.get(index).getName()+"님이 출금중...");
 					money = list.get(index).getBalance() - withdraw;
 					list.get(index).setBalance(money);
 					oos.writeUTF(list.get(index).getName()+"님의 남은 잔고 : "+list.get(index).getBalance()+"원");
@@ -192,8 +220,14 @@ public class Server extends Thread{
 				System.out.println(list);
 				break;
 			case "transfer":
-				System.out.println("송금중...");
 				load(fileName);
+				if(list.size() == 0) {
+					oos.writeUTF("등록된 계좌가 없습니다.");
+					oos.flush();
+					break;
+				}
+				oos.writeUTF("");
+				oos.flush();
 				search = ois.readUTF();
 				index = findAccount(search);
 				oos.writeInt(index);
@@ -258,6 +292,7 @@ public class Server extends Thread{
 					}
 					oos.writeUTF("");
 					oos.flush();
+					System.out.println(list.get(index).getName()+"님이 송금중...");
 					money = list.get(index).getBalance() - transfer;
 					list.get(index).setBalance(money);
 					oos.writeUTF(list.get(index).getName()+"님의 남은 잔고 : "+list.get(index).getBalance()+"원");
@@ -277,8 +312,14 @@ public class Server extends Thread{
 				System.out.println(list);
 				break;
 			case "check":
-				System.out.println("통장조회중...");
 				load(fileName);
+				if(list.size() == 0) {
+					oos.writeUTF("등록된 계좌가 없습니다.");
+					oos.flush();
+					break;
+				}
+				oos.writeUTF("");
+				oos.flush();
 				search = ois.readUTF();
 				index = findAccount(search);
 				oos.writeInt(index);
@@ -299,6 +340,7 @@ public class Server extends Thread{
 				}while(true);
 				oos.writeUTF(list.get(index).toString());
 				oos.flush();
+				System.out.println(list.get(index).getName()+"님이 통장조회중...");
 				List<String> bankBook = list.get(index).getBankBook();
 				oos.writeInt(bankBook.size());
 				oos.flush();

@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 
 public class ATM {
 	private Scanner scan = new Scanner(System.in);
-	private String ip = "192.168.30.5";
+	private String ip = "192.168.30.4";
 	private int port = 5001;
 	private void printMenu() {
 		System.out.print(
@@ -35,7 +35,7 @@ public class ATM {
 				do {
 					System.out.print("예금주명 : ");
 					name = scan.next();
-					String regex = "^[ㄱ-ㅎ가-힣]{2,5}$";
+					String regex = "^[가-힣]{2,4}$";
 					if(!Pattern.matches(regex, name)) {
 						System.out.println("잘못된 이름입니다. 다시 입력하세요.");
 						continue;
@@ -89,7 +89,7 @@ public class ATM {
 				do {
 					System.out.print("계좌번호 혹은 예금주명 : ");
 					search = scan.next();
-					String regex = "^[ㄱ-ㅎ가-힣]{2,5}$";
+					String regex = "^[가-힣]{2,4}$";
 					String regex2 = "^1010-\\d{4}$";
 					if(!Pattern.matches(regex, search) && !Pattern.matches(regex2, search)) {
 						System.out.println("잘못된 계좌번호 혹은 이름입니다. 다시 입력하세요.");
@@ -145,7 +145,7 @@ public class ATM {
 				do {
 					System.out.print("계좌번호 혹은 예금주명 : ");
 					search = scan.next();
-					String regex = "^[ㄱ-ㅎ가-힣]{2,5}$";
+					String regex = "^[가-힣]{2,4}$";
 					String regex2 = "^1010-\\d{4}$";
 					if(!Pattern.matches(regex, search) && !Pattern.matches(regex2, search)) {
 						System.out.println("잘못된 계좌번호 혹은 이름입니다. 다시 입력하세요.");
@@ -240,7 +240,7 @@ public class ATM {
 				do {
 					System.out.print("계좌번호 혹은 예금주명 : ");
 					search = scan.next();
-					String regex = "^[ㄱ-ㅎ가-힣]{2,5}$";
+					String regex = "^[가-힣]{2,4}$";
 					String regex2 = "^1010-\\d{4}$";
 					if(!Pattern.matches(regex, search) && !Pattern.matches(regex2, search)) {
 						System.out.println("잘못된 계좌번호 혹은 이름입니다. 다시 입력하세요.");
@@ -291,7 +291,7 @@ public class ATM {
 				do {
 					System.out.print("계좌번호 혹은 예금주명 : ");
 					search = scan.next();
-					String regex = "^[ㄱ-ㅎ가-힣]{2,5}$";
+					String regex = "^[가-힣]{2,4}$";
 					String regex2 = "^1010-\\d{4}$";
 					if(!Pattern.matches(regex, search) && !Pattern.matches(regex2, search)) {
 						System.out.println("잘못된 계좌번호 혹은 이름입니다. 다시 입력하세요.");
@@ -382,7 +382,7 @@ public class ATM {
 				do {
 					System.out.print("계좌번호 혹은 예금주명 : ");
 					search = scan.next();
-					String regex = "^[ㄱ-ㅎ가-힣]{2,5}$";
+					String regex = "^[가-힣]{2,4}$";
 					String regex2 = "^1010-\\d{4}$";
 					if(!Pattern.matches(regex, search) && !Pattern.matches(regex2, search)) {
 						System.out.println("잘못된 계좌번호 혹은 이름입니다. 다시 입력하세요.");
@@ -415,8 +415,17 @@ public class ATM {
 					System.out.println(result);
 					break;
 				}
-				System.out.print("송금할 계좌번호 혹은 예금주명 : ");
-				search = scan.next();
+				do {
+					System.out.print("송금할 계좌번호 혹은 예금주명 : ");
+					search = scan.next();
+					String regex = "^[가-힣]{2,4}$";
+					String regex2 = "^1010-\\d{4}$";
+					if(!Pattern.matches(regex, search) && !Pattern.matches(regex2, search)) {
+						System.out.println("잘못된 계좌번호 혹은 이름입니다. 다시 입력하세요.");
+						continue;
+					}
+					break;
+				}while(true);
 				oos.writeUTF(search);
 				oos.flush();
 				result = ois.readUTF();
@@ -494,7 +503,7 @@ public class ATM {
 				do {
 					System.out.print("계좌번호 혹은 예금주명 : ");
 					search = scan.next();
-					String regex = "^[ㄱ-ㅎ가-힣]{2,5}$";
+					String regex = "^[가-힣]{2,4}$";
 					String regex2 = "^1010-\\d{4}$";
 					if(!Pattern.matches(regex, search) && !Pattern.matches(regex2, search)) {
 						System.out.println("잘못된 계좌번호 혹은 이름입니다. 다시 입력하세요.");

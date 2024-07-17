@@ -418,7 +418,7 @@ public class ATM {
 				do {
 					System.out.print("송금할 계좌번호 혹은 예금주명 : ");
 					search = scan.next();
-					String regex = "^[가-힣]{2,4}$";
+					String regex = "^[가-힣]{1,4}$";
 					String regex2 = "^1010-\\d{4}$";
 					if(!Pattern.matches(regex, search) && !Pattern.matches(regex2, search)) {
 						System.out.println("잘못된 계좌번호 혹은 이름입니다. 다시 입력하세요.");
@@ -440,7 +440,7 @@ public class ATM {
 				}
 				System.out.print("송금할 계좌 선택 : ");
 				int index2 = scan.nextInt() - 1;
-				oos.write(index2);
+				oos.writeInt(index2);
 				oos.flush();
 				int transfer = 0;
 				result = ois.readUTF();

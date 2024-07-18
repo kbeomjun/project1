@@ -275,7 +275,7 @@ public class Server extends Thread{
 						oos.writeUTF((i+1)+". "+list2.get(i).getBank()+" "+list2.get(i).getAccountNum()+"(예금주:"+list2.get(i).getName()+")");
 						oos.flush();
 					}
-					int index2 = ois.read();
+					int index2 = ois.readInt();
 					if(index2 > list2.size() - 1 || index2 < 0) {
 						oos.writeUTF("번호를 잘못선택했습니다.");
 						oos.flush();
@@ -302,6 +302,7 @@ public class Server extends Thread{
 					for(int i = 0; i < list.size(); i++) {
 						if(list.get(i).getAccountNum().equals(list2.get(index2).getAccountNum())) {
 							index2 = i;
+							break;
 						}
 					}
 					money = list.get(index2).getBalance() + transfer;

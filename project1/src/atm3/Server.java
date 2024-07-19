@@ -27,7 +27,7 @@ public class Server extends Thread{
 			ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
 			ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
 			String type = ois.readUTF();
-			switch(type) {
+			A:switch(type) {
 			case "insert":
 				System.out.println("계좌개설중...");
 				load(fileName);
@@ -77,6 +77,11 @@ public class Server extends Thread{
 				oos.flush();
 				do {
 					String password = ois.readUTF();
+					if(password.equals("0")) {
+						oos.writeUTF("메뉴로 돌아갑니다.");
+						oos.flush();
+						break A;
+					}
 					if(!list.get(index).getPassword().equals(password)) {
 						oos.writeUTF("잘못된 비밀번호입니다. 다시 입력하세요.");
 						oos.flush();
@@ -106,6 +111,11 @@ public class Server extends Thread{
 				oos.flush();
 				do {
 					String password = ois.readUTF();
+					if(password.equals("0")) {
+						oos.writeUTF("메뉴로 돌아갑니다.");
+						oos.flush();
+						break A;
+					}
 					if(!list.get(index).getPassword().equals(password)) {
 						oos.writeUTF("잘못된 비밀번호입니다. 다시 입력하세요.");
 						oos.flush();
@@ -181,6 +191,11 @@ public class Server extends Thread{
 				}
 				do {
 					password = ois.readUTF();
+					if(password.equals("0")) {
+						oos.writeUTF("메뉴로 돌아갑니다.");
+						oos.flush();
+						break A;
+					}
 					if(!list.get(index).getPassword().equals(password)) {
 						oos.writeUTF("잘못된 비밀번호입니다. 다시 입력하세요.");
 						oos.flush();
@@ -237,6 +252,11 @@ public class Server extends Thread{
 				}
 				do {
 					password = ois.readUTF();
+					if(password.equals("0")) {
+						oos.writeUTF("메뉴로 돌아갑니다.");
+						oos.flush();
+						break A;
+					}
 					if(!list.get(index).getPassword().equals(password)) {
 						oos.writeUTF("잘못된 비밀번호입니다. 다시 입력하세요.");
 						oos.flush();
@@ -330,6 +350,11 @@ public class Server extends Thread{
 				}
 				do {
 					password = ois.readUTF();
+					if(password.equals("0")) {
+						oos.writeUTF("메뉴로 돌아갑니다.");
+						oos.flush();
+						break A;
+					}
 					if(!list.get(index).getPassword().equals(password)) {
 						oos.writeUTF("잘못된 비밀번호입니다. 다시 입력하세요.");
 						oos.flush();

@@ -106,7 +106,7 @@ public class ATM {
 				}
 				String check = "";
 				do {
-					System.out.print("비밀번호(메뉴로 돌아가려면 0) : ");
+					System.out.print("비밀번호(메뉴로 돌아가기 : 0) : ");
 					String password = scan.next();
 					oos.writeUTF(password);
 					oos.flush();
@@ -167,7 +167,7 @@ public class ATM {
 				}
 				String check = "";
 				do {
-					System.out.print("비밀번호(메뉴로 돌아가려면 0) : ");
+					System.out.print("비밀번호(메뉴로 돌아가기 : 0) : ");
 					String password = scan.next();
 					oos.writeUTF(password);
 					oos.flush();
@@ -318,7 +318,7 @@ public class ATM {
 				}
 				String check = "";
 				do {
-					System.out.print("비밀번호(메뉴로 돌아가려면 0) : ");
+					System.out.print("비밀번호(메뉴로 돌아가기 : 0) : ");
 					String password = scan.next();
 					oos.writeUTF(password);
 					oos.flush();
@@ -414,7 +414,7 @@ public class ATM {
 				}
 				String check = "";
 				do {
-					System.out.print("비밀번호(메뉴로 돌아가려면 0) : ");
+					System.out.print("비밀번호(메뉴로 돌아가기 : 0) : ");
 					String password = scan.next();
 					oos.writeUTF(password);
 					oos.flush();
@@ -540,7 +540,7 @@ public class ATM {
 				}
 				String check = "";
 				do {
-					System.out.print("비밀번호(메뉴로 돌아가려면 0) : ");
+					System.out.print("비밀번호(메뉴로 돌아가기 : 0) : ");
 					String password = scan.next();
 					oos.writeUTF(password);
 					oos.flush();

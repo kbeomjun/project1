@@ -21,7 +21,7 @@ public class ATM {
 	}
 	private void runMenu(int menu) {
 		System.out.println("------------------------------");
-		switch(menu) {
+		A:switch(menu) {
 		case 1:
 			try {
 				Socket socket = new Socket(ip, port);
@@ -106,11 +106,16 @@ public class ATM {
 				}
 				String check = "";
 				do {
-					System.out.print("비밀번호 : ");
+					System.out.print("비밀번호(메뉴로 돌아가려면 0) : ");
 					String password = scan.next();
 					oos.writeUTF(password);
 					oos.flush();
 					check = ois.readUTF();
+					if(check.equals("메뉴로 돌아갑니다.")) {
+						System.out.println(check);
+						System.out.println("------------------------------");
+						break A;
+					}
 					if(check.equals("잘못된 비밀번호입니다. 다시 입력하세요.")) {
 						System.out.println(check);
 						continue;
@@ -162,11 +167,16 @@ public class ATM {
 				}
 				String check = "";
 				do {
-					System.out.print("비밀번호 : ");
+					System.out.print("비밀번호(메뉴로 돌아가려면 0) : ");
 					String password = scan.next();
 					oos.writeUTF(password);
 					oos.flush();
 					check = ois.readUTF();
+					if(check.equals("메뉴로 돌아갑니다.")) {
+						System.out.println(check);
+						System.out.println("------------------------------");
+						break A;
+					}
 					if(check.equals("잘못된 비밀번호입니다. 다시 입력하세요.")) {
 						System.out.println(check);
 						continue;
@@ -308,11 +318,16 @@ public class ATM {
 				}
 				String check = "";
 				do {
-					System.out.print("비밀번호 : ");
+					System.out.print("비밀번호(메뉴로 돌아가려면 0) : ");
 					String password = scan.next();
 					oos.writeUTF(password);
 					oos.flush();
 					check = ois.readUTF();
+					if(check.equals("메뉴로 돌아갑니다.")) {
+						System.out.println(check);
+						System.out.println("------------------------------");
+						break A;
+					}
 					if(check.equals("잘못된 비밀번호입니다. 다시 입력하세요.")) {
 						System.out.println(check);
 						continue;
@@ -399,11 +414,16 @@ public class ATM {
 				}
 				String check = "";
 				do {
-					System.out.print("비밀번호 : ");
+					System.out.print("비밀번호(메뉴로 돌아가려면 0) : ");
 					String password = scan.next();
 					oos.writeUTF(password);
 					oos.flush();
 					check = ois.readUTF();
+					if(check.equals("메뉴로 돌아갑니다.")) {
+						System.out.println(check);
+						System.out.println("------------------------------");
+						break A;
+					}
 					if(check.equals("잘못된 비밀번호입니다. 다시 입력하세요.")) {
 						System.out.println(check);
 						continue;
@@ -520,11 +540,16 @@ public class ATM {
 				}
 				String check = "";
 				do {
-					System.out.print("비밀번호 : ");
+					System.out.print("비밀번호(메뉴로 돌아가려면 0) : ");
 					String password = scan.next();
 					oos.writeUTF(password);
 					oos.flush();
 					check = ois.readUTF();
+					if(check.equals("메뉴로 돌아갑니다.")) {
+						System.out.println(check);
+						System.out.println("------------------------------");
+						break A;
+					}
 					if(check.equals("잘못된 비밀번호입니다. 다시 입력하세요.")) {
 						System.out.println(check);
 						continue;

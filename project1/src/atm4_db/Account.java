@@ -22,7 +22,13 @@ public class Account implements Serializable {
 	@NonNull
 	private int balance;
 	private List<String> bankBook = new ArrayList<String>();
+	private Detail bankBook2;
 	private String bank = "KH은행";
+	public void showDetail(List<Detail> bankBook2) {
+		for(int i = 0; i < bankBook2.size(); i++) {
+			System.out.println(bankBook2.get(i).toString()+""+balance+"원");
+		}
+	}
 	@Override
 	public String toString() {
 		return bank+" "+accountNum+"(예금주:"+name+") 잔고 : "+balance+"원";

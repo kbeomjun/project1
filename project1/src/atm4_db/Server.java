@@ -17,7 +17,7 @@ import lombok.AllArgsConstructor;
 public class Server extends Thread{
 	private Socket socket;
 	private static List<Account> list = new ArrayList<Account>();
-	private static final String fileName = "src/atm3/server.txt";;
+	private static final String fileName = "src/atm3/server.txt";
 	
 	@Override
 	public synchronized void run() {

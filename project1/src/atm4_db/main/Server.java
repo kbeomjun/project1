@@ -48,7 +48,7 @@ public class Server extends Thread{
 				oos.flush();
 				System.out.println(ac_name+"님이 계좌를 개설했습니다.");
 				String dt_ac_num = ac_num;
-				detailDao.insertDetail("계좌 개설", 0, 0, dt_ac_num);
+				detailDao.insertDetail("계좌개설", 0, 0, dt_ac_num);
 				break;
 			case "remove":
 				ac_num = ois.readUTF();

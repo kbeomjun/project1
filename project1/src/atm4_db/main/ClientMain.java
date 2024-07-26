@@ -1,4 +1,4 @@
-package atm4_db;
+package atm4_db.main;
 
 public class ClientMain {
 

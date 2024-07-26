@@ -1,4 +1,4 @@
-package atm4_db;
+package atm4_db.main;
 
 import java.io.IOException;
 import java.net.ServerSocket;

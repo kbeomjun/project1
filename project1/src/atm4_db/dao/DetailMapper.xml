@@ -11,6 +11,7 @@
 		insert into detail(dt_detail, dt_money, dt_balance, dt_ac_num)
 			values(#{dt_detail}, #{dt_money}, #{dt_balance}, #{dt_ac_num})
 	</insert>
+	
 	<select id="getDetail" resultType="DetailVO">
 		select * from detail where dt_ac_num = #{dt_ac_num}
 	</select>

@@ -12,6 +12,10 @@
 			values(#{dt_detail}, #{dt_money}, #{dt_balance}, #{dt_ac_num})
 	</insert>
 	
+	<delete id="deleteDetail">
+		delete from detail where dt_ac_num = #{dt_ac_num}
+	</delete>
+	
 	<select id="getDetail" resultType="DetailVO">
 		select * from detail where dt_ac_num = #{dt_ac_num}
 	</select>

@@ -77,6 +77,8 @@ public class Server extends Thread{
 					break;
 				}while(true);
 				System.out.println(tmp.getAc_name()+"님이 계좌해지중...");
+				dt_ac_num = ac_num;
+				detailDao.deleteDetail(dt_ac_num);
 				accountDao.deleteAccount(ac_num);
 				System.out.println(tmp.getAc_name()+"님이 계좌를 해지했습니다.");
 				break;

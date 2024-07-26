@@ -14,4 +14,6 @@ public interface DetailDAO {
 			@Param("dt_ac_num")String dt_ac_num);
 
 	List<DetailVO> getDetail(@Param("dt_ac_num") String dt_ac_num);
+
+	void deleteDetail(@Param("dt_ac_num")String dt_ac_num);
 }

@@ -29,8 +29,8 @@ public class Server extends Thread{
 	        init();
 	        ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
 	        ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
-	        String type = ois.readUTF();
-	        switch(type) {
+	        String menu = ois.readUTF();
+	        switch(menu) {
 	            case "insert":
 	                ATMInsert(ois, oos);
 	                break;

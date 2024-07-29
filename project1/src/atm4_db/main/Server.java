@@ -194,6 +194,7 @@ public class Server extends Thread{
 				}
 				oos.writeUTF("");
 				oos.flush();
+				tmp = accountDao.selectAccount(ac_num);
 				System.out.println(tmp.getAc_name()+"님이 출금중...");
 				ac_balance = tmp.getAc_balance() - withdraw;
 				accountDao.updateAccountBalance(ac_num, ac_balance);
@@ -279,6 +280,8 @@ public class Server extends Thread{
 				}
 				oos.writeUTF("");
 				oos.flush();
+				tmp = accountDao.selectAccount(ac_num);
+				AccountVO tmp2 = accountDao.selectAccount(list2.get(index).getAc_num());
 				System.out.println(tmp.getAc_name()+"님이 송금중...");
 				ac_balance = tmp.getAc_balance() - transfer;
 				accountDao.updateAccountBalance(ac_num, ac_balance);
@@ -287,9 +290,9 @@ public class Server extends Thread{
 				dt_ac_num = ac_num;
 				dt_money = -transfer;
 				dt_balance = ac_balance;
-				detailDao.insertDetail("송금("+list2.get(index).getAc_name()+")", dt_money, dt_balance, dt_ac_num);
-				ac_num = list2.get(index).getAc_num();
-				ac_balance = list2.get(index).getAc_balance() + transfer;
+				detailDao.insertDetail("송금("+tmp2.getAc_name()+")", dt_money, dt_balance, dt_ac_num);
+				ac_num = tmp2.getAc_num();
+				ac_balance = tmp2.getAc_balance() + transfer;
 				accountDao.updateAccountBalance(ac_num, ac_balance);
 				dt_ac_num = ac_num;
 				dt_money = transfer;
@@ -325,6 +328,7 @@ public class Server extends Thread{
 				}while(true);
 				oos.writeUTF(tmp.toString());
 				oos.flush();
+				tmp = accountDao.selectAccount(ac_num);
 				System.out.println(tmp.getAc_name()+"님이 통장조회중...");
 				dt_ac_num = ac_num;
 				List<DetailVO> bankBook = detailDao.getDetail(dt_ac_num);

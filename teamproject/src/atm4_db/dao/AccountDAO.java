@@ -18,7 +18,7 @@ public interface AccountDAO {
 
 	public void updateAccountPw(@Param("ac_num")String ac_num, @Param("ac_pw")String ac_pw);
 
-	public void updateAccountBalance(@Param("ac_num")String ac_num, @Param("ac_balance")int ac_balance);
+	public  void updateAccountBalance(@Param("ac_num")String ac_num, @Param("ac_balance")int ac_balance);
 
 	public List<AccountVO> selectAccountList();
 }

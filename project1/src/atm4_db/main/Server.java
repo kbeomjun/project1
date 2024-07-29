@@ -294,7 +294,7 @@ public class Server extends Thread{
 				dt_ac_num = ac_num;
 				dt_money = transfer;
 				dt_balance = ac_balance;
-				detailDao.insertDetail("송금("+list2.get(index).getAc_name()+")", dt_money, dt_balance, dt_ac_num);
+				detailDao.insertDetail("송금("+tmp.getAc_name()+")", dt_money, dt_balance, dt_ac_num);
 				System.out.println(tmp.getAc_name()+"님이 송금하였습니다.");
 				break;
 			case "check":

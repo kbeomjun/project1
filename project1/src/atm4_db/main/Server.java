@@ -137,7 +137,7 @@ public class Server extends Thread{
 					break;
 				}
 				oos.writeUTF("");
-				oos.flush();			
+				oos.flush();
 				System.out.println(tmp.getAc_name()+"님이 입금중...");
 				int ac_balance = 0;
 				ac_balance = tmp.getAc_balance() + deposit;
@@ -195,7 +195,7 @@ public class Server extends Thread{
 				oos.writeUTF("");
 				oos.flush();
 				System.out.println(tmp.getAc_name()+"님이 출금중...");
-				ac_balance =tmp.getAc_balance() - withdraw;
+				ac_balance = tmp.getAc_balance() - withdraw;
 				accountDao.updateAccountBalance(ac_num, ac_balance);
 				oos.writeUTF(tmp.getAc_name()+"님의 남은 잔고 : "+ac_balance+"원");
 				oos.flush();
@@ -294,7 +294,7 @@ public class Server extends Thread{
 				dt_ac_num = ac_num;
 				dt_money = transfer;
 				dt_balance = ac_balance;
-				detailDao.insertDetail("송금("+list2.get(index).getAc_name()+")", dt_money, dt_balance, dt_ac_num);
+				detailDao.insertDetail("송금("+tmp.getAc_name()+")", dt_money, dt_balance, dt_ac_num);
 				System.out.println(tmp.getAc_name()+"님이 송금하였습니다.");
 				break;
 			case "check":

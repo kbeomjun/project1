@@ -29,6 +29,6 @@
 	</update>
 	
 	<update id="updateAccountBalance">
-		update account set ac_balance = #{ac_balance} where ac_num = #{ac_num}
+		update account set ac_balance -= #{transfer} where ac_num = #{ac_num}
 	</update>
 </mapper>

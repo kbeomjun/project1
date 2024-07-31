@@ -124,7 +124,7 @@ public class ATM {
 			printBar();
 			System.out.println("입금중입니다...");
 			Thread.sleep(1000);
-			System.out.println(format(deposit) + "원을 입금하였습니다.");
+			System.out.println(balanceFormat(deposit) + "원을 입금하였습니다.");
 			result = ois.readUTF();
 			System.out.println(result);
 			printBar();
@@ -171,7 +171,7 @@ public class ATM {
 			}
 			System.out.println("출금중입니다...");
 			Thread.sleep(1000);
-			System.out.println(format(withdraw) + "원을 출금하였습니다.");
+			System.out.println(balanceFormat(withdraw) + "원을 출금하였습니다.");
 			result = ois.readUTF();
 			System.out.println(result);
 			printBar();
@@ -240,7 +240,7 @@ public class ATM {
 			}
 			System.out.println("송금중입니다...");
 			Thread.sleep(1000);
-			System.out.println(format(transfer) + "원을 송금하였습니다.");
+			System.out.println(balanceFormat(transfer) + "원을 송금하였습니다.");
 			result = ois.readUTF();
 			System.out.println(result);
 			printBar();
@@ -305,7 +305,7 @@ public class ATM {
 		}
 	}
 	
-	private String format(int balance) {
+	private String balanceFormat(int balance) {
 		DecimalFormat df = new DecimalFormat("#,###");
 		return df.format(balance);
 	}

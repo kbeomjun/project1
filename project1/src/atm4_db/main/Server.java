@@ -124,7 +124,7 @@ public class Server extends Thread{
 			case "deposit":
 				int deposit = ois.readInt();
 				if(deposit <= 0) {
-					oos.writeUTF(format(deposit)+"원은 입금할 수 없습니다.");
+					oos.writeUTF(balanceFormat(deposit)+"원은 입금할 수 없습니다.");
 					oos.flush();
 					break;
 				}
@@ -143,7 +143,7 @@ public class Server extends Thread{
 				int ac_balance = 0;
 				ac_balance = tmp.getAc_balance() + deposit;
 				accountDao.updateAccountBalance(ac_num, ac_balance);
-				oos.writeUTF(tmp.getAc_name()+"님의 남은 잔고 : "+format(ac_balance)+"원");
+				oos.writeUTF(tmp.getAc_name()+"님의 남은 잔고 : "+balanceFormat(ac_balance)+"원");
 				oos.flush();
 				dt_ac_num = ac_num;
 				int dt_money = deposit;
@@ -185,11 +185,11 @@ public class Server extends Thread{
 				oos.writeUTF("");
 				oos.flush();
 				int withdraw = 0;
-				oos.writeUTF("출금할 금액(잔액 : "+format(tmp.getAc_balance())+"원) : ");
+				oos.writeUTF("출금할 금액(잔액 : "+balanceFormat(tmp.getAc_balance())+"원) : ");
 				oos.flush();
 				withdraw = ois.readInt();
 				if(withdraw <= 0 || tmp.getAc_balance() < withdraw) {
-					oos.writeUTF(format(withdraw)+"원은 출금할 수 없습니다.");
+					oos.writeUTF(balanceFormat(withdraw)+"원은 출금할 수 없습니다.");
 					oos.flush();
 					break;
 				}
@@ -199,7 +199,7 @@ public class Server extends Thread{
 				System.out.println(tmp.getAc_name()+"님이 출금중...");
 				ac_balance = tmp.getAc_balance() - withdraw;
 				accountDao.updateAccountBalance(ac_num, ac_balance);
-				oos.writeUTF(tmp.getAc_name()+"님의 남은 잔고 : "+format(ac_balance)+"원");
+				oos.writeUTF(tmp.getAc_name()+"님의 남은 잔고 : "+balanceFormat(ac_balance)+"원");
 				oos.flush();
 				dt_ac_num = ac_num;
 				dt_money = -withdraw;
@@ -275,7 +275,7 @@ public class Server extends Thread{
 				oos.flush();
 				transfer = ois.readInt();
 				if(transfer <= 0 || tmp.getAc_balance() < transfer) {
-					oos.writeUTF(format(transfer)+"원은 송금할 수 없습니다.");
+					oos.writeUTF(balanceFormat(transfer)+"원은 송금할 수 없습니다.");
 					oos.flush();
 					break;
 				}
@@ -286,7 +286,7 @@ public class Server extends Thread{
 				System.out.println(tmp.getAc_name()+"님이 송금중...");
 				ac_balance = tmp.getAc_balance() - transfer;
 				accountDao.updateAccountBalance(ac_num, ac_balance);
-				oos.writeUTF(tmp.getAc_name()+"님의 남은 잔고 : "+format(ac_balance)+"원");
+				oos.writeUTF(tmp.getAc_name()+"님의 남은 잔고 : "+balanceFormat(ac_balance)+"원");
 				oos.flush();
 				dt_ac_num = ac_num;
 				dt_money = -transfer;
@@ -353,7 +353,7 @@ public class Server extends Thread{
 		}
 	}
 	
-	private String format(int balance) {
+	private String balanceFormat(int balance) {
 		DecimalFormat df = new DecimalFormat("#,###");
 		return df.format(balance);
 	}

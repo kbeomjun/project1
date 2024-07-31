@@ -22,7 +22,7 @@ public class AccountVO {
 	
 	@Override
 	public String toString() {
-		return "KH은행 "+ac_num+"(예금주:"+ac_name+") 잔고 : "+format(ac_balance)+"원";
+		return "KH은행 "+ac_num+"(예금주:"+ac_name+") 잔고 : "+balanceFormat(ac_balance)+"원";
 	}
 	
 	@Override
@@ -42,7 +42,7 @@ public class AccountVO {
 		return Objects.hash(ac_name, ac_pw);
 	}
 	
-	private String format(int balance) {
+	private String balanceFormat(int balance) {
 		DecimalFormat df = new DecimalFormat("#,###");
 		return df.format(balance);
 	}

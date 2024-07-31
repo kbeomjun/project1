@@ -5,6 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -19,7 +20,7 @@ public class ATM {
 				+ "4. 입금      5. 출금     6. 송금\n"
 				+ "7. 통장조회   8. 업무종료   선택 : ");
 	}
-	private void runMenu(int menu) {
+	private void runMenu(int menu) throws Exception {
 		printBar();
 		A:switch(menu) {
 		case 1:
@@ -478,8 +479,16 @@ public class ATM {
 		int menu = 0;
 		do {
 			printMenu();
-			menu = scan.nextInt();
-			runMenu(menu);
+			try {
+				menu = scan.nextInt();
+				runMenu(menu);
+			} catch (InputMismatchException e) {
+				printBar();
+				System.out.println("잘못된 입력입니다.");
+				scan.nextLine();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}while(menu != 8);
 	}
 }

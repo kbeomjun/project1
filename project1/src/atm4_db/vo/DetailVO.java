@@ -19,7 +19,7 @@ public class DetailVO {
 	
 	@Override
 	public String toString() {
-		return format(dt_date)+" | "+dt_detail+" | "+balanceFormat(dt_balance)+"원  |  "+"잔고 : "+balanceFormat(dt_balance)+"원";
+		return format(dt_date)+" | "+dt_detail+" | "+balanceFormat(dt_money)+"원  |  "+"잔고 : "+balanceFormat(dt_balance)+"원";
 	}
 	
 	public String format(Date dt_date) {

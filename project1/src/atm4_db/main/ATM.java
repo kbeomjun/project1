@@ -5,6 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.text.DecimalFormat;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -300,6 +301,12 @@ public class ATM {
 			System.out.println("잘못된 메뉴입니다.");
 			printBar();
 		}
+	}
+	
+	private String format(int balance) {
+		DecimalFormat df = new DecimalFormat("#,###");
+		String tmp = df.format(balance);
+		return tmp;
 	}
 
 	private void checkAccount(ObjectOutputStream oos, ObjectInputStream ois, String ac_num) throws IOException {

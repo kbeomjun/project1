@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 
 public class ATM { 
 	private Scanner scan = new Scanner(System.in);
-	private String ip = "192.168.30.4";
+	private String ip = "192.168.30.211";
 	private int port = 5001;
 	private void printMenu() {
 		System.out.print(
@@ -33,8 +33,9 @@ public class ATM {
 				String ac_name = regexName();
 				oos.writeUTF(ac_name);
 				oos.flush();
+				String message = "";
 				// 비밀번호가 정규표현식에 적합해야 변수에 저장
-				String ac_pw = regexPw();
+				String ac_pw = regexPw(message);
 				oos.writeUTF(ac_pw);
 				oos.flush();
 				String ac_num = ois.readUTF();
@@ -93,8 +94,9 @@ public class ATM {
 				boolean escape = checkPw(oos, ois, ac_num);
 				if(escape) { break A;}
 				printBar();
+				String message = "새로운 ";
 				// 새 비밀번호가 정규표현식에 정합해야 변수에 저장
-				String ac_pw = regexNewPw();
+				String ac_pw = regexPw(message);
 				oos.writeUTF(ac_pw);
 				oos.flush();
 				String result = ois.readUTF();
@@ -121,8 +123,9 @@ public class ATM {
 				ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
 				oos.writeUTF("deposit");
 				oos.flush();
+				String message = "입금";
 				// 금액이 정규 표현식에 적합해야 변수에 저장
-				String str = regexAmount();
+				String str = regexAmount(message);
 				int deposit = Integer.parseInt(str);
 				oos.writeInt(deposit);
 				oos.flush();
@@ -179,8 +182,9 @@ public class ATM {
 				printBar();
 				int withdraw = 0;
 				result = ois.readUTF();
+				String message = "출금";
 				// 금액이 정규표현식에 적합해야 변수에 저장 
-				String str = regexAmount();
+				String str = regexAmount(message);
 				withdraw = Integer.parseInt(str);
 				oos.writeInt(withdraw);
 				oos.flush();
@@ -254,8 +258,9 @@ public class ATM {
 					System.out.println(result);
 					break;
 				}
+				String message = "송금";
 				// 금액이 정규표현식에 적합해야 변수에 저장
-				String str = regexAmount();
+				String str = regexAmount(message);
 				transfer = Integer.parseInt(str);
 				oos.writeInt(transfer);
 				oos.flush();
@@ -405,25 +410,10 @@ public class ATM {
 		return search;
 	}
 	
-	private String regexNewPw() {
-		String ac_pw;
-		do {
-			System.out.print("변경할 비밀번호(4자리) : ");
-			ac_pw = scan.next();
-			String regex = "^\\d{4}$";
-			if(!Pattern.matches(regex, ac_pw)) {
-				System.out.println("잘못된 비밀번호 형식입니다. 다시 입력하세요.");
-				continue;
-			}
-			break;
-		}while(true);
-		return ac_pw;
-	}
-	
-	private String regexAmount() {
+	private String regexAmount(String message) {
 		String str;
 		do {
-			System.out.print("입금할 금액 : ");
+			System.out.print(message + "할 금액 : ");
 			str = scan.next();
 			String regex = "^\\d{0,9}$";
 			if(!Pattern.matches(regex, str)) {
@@ -450,10 +440,10 @@ public class ATM {
 		return ac_num;
 	}
 	
-	private String regexPw() {
+	private String regexPw(String message) {
 		String ac_pw;
 		do {
-			System.out.print("비밀번호(4자리) : ");
+			System.out.print(message + "비밀번호(4자리) : ");
 			ac_pw = scan.next();
 			String regex = "^\\d{4}$";
 			if(!Pattern.matches(regex, ac_pw)) {
@@ -481,7 +471,7 @@ public class ATM {
 	}
 	
 	private void printBar() {
-		System.out.println("------------------------------");
+		System.out.println("-----------------------------------");
 	}
 	
 	public void run() {

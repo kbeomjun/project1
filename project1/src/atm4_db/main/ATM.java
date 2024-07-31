@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 
 public class ATM {
 	private Scanner scan = new Scanner(System.in);
-	private String ip = "192.168.30.211";
+	private String ip = "192.168.219.171";
 	private int port = 5001;
 
 	private void printMenu() {
@@ -124,7 +124,7 @@ public class ATM {
 			printBar();
 			System.out.println("입금중입니다...");
 			Thread.sleep(1000);
-			System.out.println(deposit + "원을 입금하였습니다.");
+			System.out.println(format(deposit) + "원을 입금하였습니다.");
 			result = ois.readUTF();
 			System.out.println(result);
 			printBar();
@@ -171,7 +171,7 @@ public class ATM {
 			}
 			System.out.println("출금중입니다...");
 			Thread.sleep(1000);
-			System.out.println(withdraw + "원을 출금하였습니다.");
+			System.out.println(format(withdraw) + "원을 출금하였습니다.");
 			result = ois.readUTF();
 			System.out.println(result);
 			printBar();
@@ -240,7 +240,7 @@ public class ATM {
 			}
 			System.out.println("송금중입니다...");
 			Thread.sleep(1000);
-			System.out.println(transfer + "원을 송금하였습니다.");
+			System.out.println(format(transfer) + "원을 송금하였습니다.");
 			result = ois.readUTF();
 			System.out.println(result);
 			printBar();
@@ -307,8 +307,7 @@ public class ATM {
 	
 	private String format(int balance) {
 		DecimalFormat df = new DecimalFormat("#,###");
-		String tmp = df.format(balance);
-		return tmp;
+		return df.format(balance);
 	}
 
 	private void checkAccount(ObjectOutputStream oos, ObjectInputStream ois, String ac_num) throws IOException {

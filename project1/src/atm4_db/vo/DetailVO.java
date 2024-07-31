@@ -1,5 +1,6 @@
 package atm4_db.vo;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import lombok.Data;
@@ -18,7 +19,7 @@ public class DetailVO {
 	
 	@Override
 	public String toString() {
-		return format(dt_date)+" | "+dt_detail+" | "+dt_money+"원  |  "+"잔고 : "+dt_balance+"원";
+		return format(dt_date)+" | "+dt_detail+" | "+balanceFormat(dt_balance)+"원  |  "+"잔고 : "+balanceFormat(dt_balance)+"원";
 	}
 	
 	public String format(Date dt_date) {
@@ -26,5 +27,8 @@ public class DetailVO {
 		return format.format(dt_date);
 	}
 	
-	
+	public String balanceFormat(int balance) {
+		DecimalFormat df = new DecimalFormat("#,###");
+		return df.format(balance);
+	}
 }

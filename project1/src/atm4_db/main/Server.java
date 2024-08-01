@@ -224,7 +224,7 @@ public class Server extends Thread{
 					break;
 				}
 				int transfer = 0;
-				oos.writeUTF("송금할 금액(잔액 : "+account.getAc_balance()+"원) : ");
+				oos.writeUTF("송금할 금액(잔액 : "+balanceFormat(account.getAc_balance())+"원) : ");
 				oos.flush();
 				transfer = ois.readInt();
 				if(transfer <= 0 || account.getAc_balance() < transfer) {
@@ -277,7 +277,7 @@ public class Server extends Thread{
 				oos.writeInt(bankBook.size());
 				oos.flush();
 				for(int i = 0; i < bankBook.size(); i++) {
-					oos.writeUTF((i+1)+". "+bankBook.get(i).toString());
+					oos.writeUTF(String.format("%-4s", (i+1)+". ")+bankBook.get(i).toString());
 					oos.flush();
 				}
 				System.out.println(account.getAc_name()+"님이 통장을 조회했습니다.");

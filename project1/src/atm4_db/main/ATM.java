@@ -104,7 +104,7 @@ public class ATM {
 			ois = new ObjectInputStream(socket.getInputStream());
 			oos.writeUTF("deposit");
 			oos.flush();
-			message = "입금";
+			message = "입금할 금액 : ";
 			// 금액이 정규 표현식에 적합해야 변수에 저장
 			String str = regexAmount(message);
 			int deposit = Integer.parseInt(str);
@@ -155,14 +155,13 @@ public class ATM {
 			printBar();
 			int withdraw = 0;
 			result = ois.readUTF();
-			message = "출금";
 			// 금액이 정규표현식에 적합해야 변수에 저장
-			str = regexAmount(message);
+			str = regexAmount(result);
 			withdraw = Integer.parseInt(str);
 			oos.writeInt(withdraw);
 			oos.flush();
 			result = ois.readUTF();
-			if (result.equals(withdraw + "원은 출금할 수 없습니다.")) {
+			if (result.equals(balanceFormat(withdraw) + "원은 출금할 수 없습니다.")) {
 				System.out.println(result);
 				break;
 			}
@@ -223,9 +222,8 @@ public class ATM {
 				System.out.println(result);
 				break;
 			}
-			message = "송금";
 			// 금액이 정규표현식에 적합해야 변수에 저장
-			str = regexAmount(message);
+			str = regexAmount(result);
 			transfer = Integer.parseInt(str);
 			oos.writeInt(transfer);
 			oos.flush();
@@ -341,7 +339,7 @@ public class ATM {
 	private String regexAmount(String message) {
 		String str;
 		do {
-			System.out.print(message + "할 금액 : ");
+			System.out.print(message);
 			str = scan.next();
 			String regex = "^\\d{0,9}$";
 			if (!Pattern.matches(regex, str)) {

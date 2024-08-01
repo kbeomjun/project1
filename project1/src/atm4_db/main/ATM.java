@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 
 public class ATM {
 	private Scanner scan = new Scanner(System.in);
-	private String ip = "192.168.219.171";
+	private String ip = "192.168.30.211";
 	private int port = 5001;
 
 	private void printMenu() {
@@ -263,16 +263,16 @@ public class ATM {
 			System.out.println(result);
 			System.out.println("통장을 조회중입니다...");
 			Thread.sleep(1000);
-			System.out.println("================================통장내역================================");
-			System.out.println(String.format("%-22s", "날짜") + String.format("%16s", "변동금액")
-								+ String.format("%16s", "잔고") + String.format("%11s", "내역"));
-			System.out.println("----------------------------------------------------------------------");
+			System.out.println("=================================통장내역=================================");
+			System.out.println(String.format("%-22s", "날짜") + String.format("%18s", "변동금액")
+								+ String.format("%18s", "잔고") + String.format("%11s", "내역"));
+			System.out.println("------------------------------------------------------------------------");
 			size = ois.readInt();
 			for (int i = 0; i < size; i++) {
 				result = ois.readUTF();
 				System.out.println(result);
 			}
-			System.out.println("======================================================================");
+			System.out.println("========================================================================");
 			System.out.print("돌아가려면 엔터를 입력하세요.");
 			scan.nextLine();
 			enter = scan.nextLine();
@@ -344,7 +344,7 @@ public class ATM {
 		do {
 			System.out.print(message);
 			str = scan.next();
-			String regex = "^\\d{0,9}$";
+			String regex = "^\\d{0,10}$";
 			if (!Pattern.matches(regex, str)) {
 				System.out.println("올바른 금액을 입력하세요.");
 				continue;

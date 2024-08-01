@@ -53,73 +53,50 @@ public class Server extends Thread{
 				break;
 			case "remove":
 				ac_num = ois.readUTF();
-				AccountVO tmp = accountDao.selectAccount(ac_num);
-				if(tmp == null) {
+				AccountVO account = accountDao.selectAccount(ac_num);
+				if(account == null) {
 					oos.writeUTF("없는 계좌입니다.");
 					oos.flush();
 					break;
 				}
 				oos.writeUTF("");
 				oos.flush();
-				do {
-					ac_pw = ois.readUTF();
-					if(ac_pw.equals("0")) {
-						oos.writeUTF("메뉴로 돌아갑니다.");
-						oos.flush();
-						break A;
-					}
-					if(!tmp.getAc_pw().equals(ac_pw)) {
-						oos.writeUTF("잘못된 비밀번호입니다. 다시 입력하세요.");
-						oos.flush();
-						continue;
-					}
-					oos.writeUTF("");
-					oos.flush();
-					break;
-				}while(true);
-				System.out.println(tmp.getAc_name()+"님이 계좌해지중...");
+				// 클라이언트에서 보내주는 비밀번호를 맞는지 확인하는 메소드
+				// "0"을 받으면 메뉴로 탈출
+				boolean escape = receivePw(oos, ois, account);
+				if (escape) {break A;}
+				
+				System.out.println(account.getAc_name()+"님이 계좌해지중...");
 				dt_ac_num = ac_num;
 				detailDao.deleteDetail(dt_ac_num);
 				accountDao.deleteAccount(ac_num);
-				System.out.println(tmp.getAc_name()+"님이 계좌를 해지했습니다.");
+				System.out.println(account.getAc_name()+"님이 계좌를 해지했습니다.");
 				break;
 			case "update":
 				ac_num = ois.readUTF();
-				tmp = accountDao.selectAccount(ac_num);
-				if(tmp == null) {
+				account = accountDao.selectAccount(ac_num);
+				if(account == null) {
 					oos.writeUTF("없는 계좌입니다.");
 					oos.flush();
 					break;
 				}
 				oos.writeUTF("");
 				oos.flush();
-				do {
-					ac_pw = ois.readUTF();
-					if(ac_pw.equals("0")) {
-						oos.writeUTF("메뉴로 돌아갑니다.");
-						oos.flush();
-						break A;
-					}
-					if(!tmp.getAc_pw().equals(ac_pw)) {
-						oos.writeUTF("잘못된 비밀번호입니다. 다시 입력하세요.");
-						oos.flush();
-						continue;
-					}
-					oos.writeUTF("");
-					oos.flush();
-					break;
-				}while(true);
+				// 클라이언트에서 보내주는 비밀번호를 맞는지 확인하는 메소드
+				// "0"을 받으면 메뉴로 탈출
+				escape = receivePw(oos, ois, account);
+				if (escape) {break A;}
 				ac_pw = ois.readUTF();
-				if(tmp.getAc_pw().equals(ac_pw)) {
+				if(account.getAc_pw().equals(ac_pw)) {
 					oos.writeUTF("동일한 비밀번호입니다.");
 					oos.flush();
 					break;
 				}
 				oos.writeUTF("");
 				oos.flush();
-				System.out.println(tmp.getAc_name()+"님이 비밀번호 변경중...");
+				System.out.println(account.getAc_name()+"님이 비밀번호 변경중...");
 				accountDao.updateAccountPw(ac_num, ac_pw);
-				System.out.println(tmp.getAc_name()+"님이 비밀번호를 변경했습니다.");
+				System.out.println(account.getAc_name()+"님이 비밀번호를 변경했습니다.");
 				break;
 			case "deposit":
 				int deposit = ois.readInt();
@@ -131,53 +108,41 @@ public class Server extends Thread{
 				oos.writeUTF("");
 				oos.flush();
 				ac_num = ois.readUTF();
-				tmp = accountDao.selectAccount(ac_num);
-				if(tmp == null) {
+				account = accountDao.selectAccount(ac_num);
+				if(account == null) {
 					oos.writeUTF("없는 계좌입니다.");
 					oos.flush();
 					break;
 				}
 				oos.writeUTF("");
 				oos.flush();
-				System.out.println(tmp.getAc_name()+"님이 입금중...");
+				System.out.println(account.getAc_name()+"님이 입금중...");
 				int ac_balance = 0;
-				ac_balance = tmp.getAc_balance() + deposit;
+				ac_balance = account.getAc_balance() + deposit;
 				accountDao.updateAccountBalance(ac_num, ac_balance);
-				oos.writeUTF(tmp.getAc_name()+"님의 남은 잔고 : "+balanceFormat(ac_balance)+"원");
+				oos.writeUTF(account.getAc_name()+"님의 남은 잔고 : "+balanceFormat(ac_balance)+"원");
 				oos.flush();
 				dt_ac_num = ac_num;
 				int dt_money = deposit;
 				int dt_balance = ac_balance;
 				detailDao.insertDetail("입금", dt_money, dt_balance, dt_ac_num);
-				System.out.println(tmp.getAc_name()+"님이 입금하였습니다.");
+				System.out.println(account.getAc_name()+"님이 입금하였습니다.");
 				break;
 			case "withdraw":
 				ac_num = ois.readUTF();
-				tmp = accountDao.selectAccount(ac_num);
-				if(tmp == null) {
+				account = accountDao.selectAccount(ac_num);
+				if(account == null) {
 					oos.writeUTF("없는 계좌입니다.");
 					oos.flush();
 					break;
 				}
 				oos.writeUTF("");
 				oos.flush();
-				do {
-					ac_pw = ois.readUTF();
-					if(ac_pw.equals("0")) {
-						oos.writeUTF("메뉴로 돌아갑니다.");
-						oos.flush();
-						break A;
-					}
-					if(!tmp.getAc_pw().equals(ac_pw)) {
-						oos.writeUTF("잘못된 비밀번호입니다. 다시 입력하세요.");
-						oos.flush();
-						continue;
-					}
-					oos.writeUTF("");
-					oos.flush();
-					break;
-				}while(true);
-				if(tmp.getAc_balance() == 0) {
+				// 클라이언트에서 보내주는 비밀번호를 맞는지 확인하는 메소드
+				// "0"을 받으면 메뉴로 탈출
+				escape = receivePw(oos, ois, account);
+				if (escape) {break A;}
+				if(account.getAc_balance() == 0) {
 					oos.writeUTF("잔액이 0원이므로 출금할 수 없습니다.");
 					oos.flush();
 					break;
@@ -185,55 +150,43 @@ public class Server extends Thread{
 				oos.writeUTF("");
 				oos.flush();
 				int withdraw = 0;
-				oos.writeUTF("출금할 금액(잔액 : "+balanceFormat(tmp.getAc_balance())+"원) : ");
+				oos.writeUTF("출금할 금액(잔액 : "+balanceFormat(account.getAc_balance())+"원) : ");
 				oos.flush();
 				withdraw = ois.readInt();
-				if(withdraw <= 0 || tmp.getAc_balance() < withdraw) {
+				if(withdraw <= 0 || account.getAc_balance() < withdraw) {
 					oos.writeUTF(balanceFormat(withdraw)+"원은 출금할 수 없습니다.");
 					oos.flush();
 					break;
 				}
 				oos.writeUTF("");
 				oos.flush();
-				tmp = accountDao.selectAccount(ac_num);
-				System.out.println(tmp.getAc_name()+"님이 출금중...");
-				ac_balance = tmp.getAc_balance() - withdraw;
+				account = accountDao.selectAccount(ac_num);
+				System.out.println(account.getAc_name()+"님이 출금중...");
+				ac_balance = account.getAc_balance() - withdraw;
 				accountDao.updateAccountBalance(ac_num, ac_balance);
-				oos.writeUTF(tmp.getAc_name()+"님의 남은 잔고 : "+balanceFormat(ac_balance)+"원");
+				oos.writeUTF(account.getAc_name()+"님의 남은 잔고 : "+balanceFormat(ac_balance)+"원");
 				oos.flush();
 				dt_ac_num = ac_num;
 				dt_money = -withdraw;
 				dt_balance = ac_balance;
 				detailDao.insertDetail("출금", dt_money, dt_balance, dt_ac_num);
-				System.out.println(tmp.getAc_name()+"님이 출금하였습니다.");
+				System.out.println(account.getAc_name()+"님이 출금하였습니다.");
 				break;
 			case "transfer":
 				ac_num = ois.readUTF();
-				tmp = accountDao.selectAccount(ac_num);
-				if(tmp == null) {
+				account = accountDao.selectAccount(ac_num);
+				if(account == null) {
 					oos.writeUTF("없는 계좌입니다.");
 					oos.flush();
 					break;
 				}
 				oos.writeUTF("");
 				oos.flush();
-				do {
-					ac_pw = ois.readUTF();
-					if(ac_pw.equals("0")) {
-						oos.writeUTF("메뉴로 돌아갑니다.");
-						oos.flush();
-						break A;
-					}
-					if(!tmp.getAc_pw().equals(ac_pw)) {
-						oos.writeUTF("잘못된 비밀번호입니다. 다시 입력하세요.");
-						oos.flush();
-						continue;
-					}
-					oos.writeUTF("");
-					oos.flush();
-					break;
-				}while(true);
-				if(tmp.getAc_balance() == 0) {
+				// 클라이언트에서 보내주는 비밀번호를 맞는지 확인하는 메소드
+				// "0"을 받으면 메뉴로 탈출
+				escape = receivePw(oos, ois, account);
+				if (escape) {break A;}
+				if(account.getAc_balance() == 0) {
 					oos.writeUTF("잔액이 0원이므로 송금할 수 없습니다.");
 					oos.flush();
 					break;
@@ -271,22 +224,22 @@ public class Server extends Thread{
 					break;
 				}
 				int transfer = 0;
-				oos.writeUTF("송금할 금액(잔액 : "+tmp.getAc_balance()+"원) : ");
+				oos.writeUTF("송금할 금액(잔액 : "+account.getAc_balance()+"원) : ");
 				oos.flush();
 				transfer = ois.readInt();
-				if(transfer <= 0 || tmp.getAc_balance() < transfer) {
+				if(transfer <= 0 || account.getAc_balance() < transfer) {
 					oos.writeUTF(balanceFormat(transfer)+"원은 송금할 수 없습니다.");
 					oos.flush();
 					break;
 				}
 				oos.writeUTF("");
 				oos.flush();
-				tmp = accountDao.selectAccount(ac_num);
+				account = accountDao.selectAccount(ac_num);
 				AccountVO tmp2 = accountDao.selectAccount(list2.get(index).getAc_num());
-				System.out.println(tmp.getAc_name()+"님이 송금중...");
-				ac_balance = tmp.getAc_balance() - transfer;
+				System.out.println(account.getAc_name()+"님이 송금중...");
+				ac_balance = account.getAc_balance() - transfer;
 				accountDao.updateAccountBalance(ac_num, ac_balance);
-				oos.writeUTF(tmp.getAc_name()+"님의 남은 잔고 : "+balanceFormat(ac_balance)+"원");
+				oos.writeUTF(account.getAc_name()+"님의 남은 잔고 : "+balanceFormat(ac_balance)+"원");
 				oos.flush();
 				dt_ac_num = ac_num;
 				dt_money = -transfer;
@@ -298,39 +251,27 @@ public class Server extends Thread{
 				dt_ac_num = ac_num;
 				dt_money = transfer;
 				dt_balance = ac_balance;
-				detailDao.insertDetail("송금("+tmp.getAc_name()+")", dt_money, dt_balance, dt_ac_num);
-				System.out.println(tmp.getAc_name()+"님이 송금하였습니다.");
+				detailDao.insertDetail("송금("+account.getAc_name()+")", dt_money, dt_balance, dt_ac_num);
+				System.out.println(account.getAc_name()+"님이 송금하였습니다.");
 				break;
 			case "check":
 				ac_num = ois.readUTF();
-				tmp = accountDao.selectAccount(ac_num);
-				if(tmp == null) {
+				account = accountDao.selectAccount(ac_num);
+				if(account == null) {
 					oos.writeUTF("없는 계좌입니다.");
 					oos.flush();
 					break;
 				}
 				oos.writeUTF("");
 				oos.flush();
-				do {
-					ac_pw = ois.readUTF();
-					if(ac_pw.equals("0")) {
-						oos.writeUTF("메뉴로 돌아갑니다.");
-						oos.flush();
-						break A;
-					}
-					if(!tmp.getAc_pw().equals(ac_pw)) {
-						oos.writeUTF("잘못된 비밀번호입니다. 다시 입력하세요.");
-						oos.flush();
-						continue;
-					}
-					oos.writeUTF("");
-					oos.flush();
-					break;
-				}while(true);
-				oos.writeUTF(tmp.toString());
+				// 클라이언트에서 보내주는 비밀번호를 맞는지 확인하는 메소드
+				// "0"을 받으면 메뉴로 탈출
+				escape = receivePw(oos, ois, account);
+				if (escape) {break A;}
+				oos.writeUTF(account.toString());
 				oos.flush();
-				tmp = accountDao.selectAccount(ac_num);
-				System.out.println(tmp.getAc_name()+"님이 통장조회중...");
+				account = accountDao.selectAccount(ac_num);
+				System.out.println(account.getAc_name()+"님이 통장조회중...");
 				dt_ac_num = ac_num;
 				List<DetailVO> bankBook = detailDao.getDetail(dt_ac_num);
 				oos.writeInt(bankBook.size());
@@ -339,7 +280,7 @@ public class Server extends Thread{
 					oos.writeUTF((i+1)+". "+bankBook.get(i).toString());
 					oos.flush();
 				}
-				System.out.println(tmp.getAc_name()+"님이 통장을 조회했습니다.");
+				System.out.println(account.getAc_name()+"님이 통장을 조회했습니다.");
 				break;
 			case "end":
 				System.out.println("접속해제");
@@ -352,7 +293,28 @@ public class Server extends Thread{
 			e.printStackTrace();
 		}
 	}
-	
+
+	private boolean receivePw(ObjectOutputStream oos, ObjectInputStream ois, AccountVO account) throws IOException {
+		do {
+			String ac_pw = ois.readUTF();
+			if(ac_pw.equals("0")) {
+				oos.writeUTF("메뉴로 돌아갑니다.");
+				oos.flush();
+				return true;
+			}
+			if(!account.getAc_pw().equals(ac_pw)) {
+				oos.writeUTF("잘못된 비밀번호입니다. 다시 입력하세요.");
+				oos.flush();
+				continue;
+			}
+			oos.writeUTF("");
+			oos.flush();
+			break;
+		}while(true);
+		
+		return false;
+	}
+
 	private String balanceFormat(int balance) {
 		DecimalFormat df = new DecimalFormat("#,###");
 		return df.format(balance);

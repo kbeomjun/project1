@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 
 public class ATM {
 	private Scanner scan = new Scanner(System.in);
-	private String ip = "192.168.219.171";
+	private String ip = "192.168.30.211";
 	private int port = 5001;
 
 	private void printMenu() {
@@ -57,11 +57,10 @@ public class ATM {
 			oos.flush();
 			// 계좌번호가 정규표현식에 적합해야 변수에 저장
 			ac_num = regexAccount();
-			// 계좌번호가 유효한지 확인하는 메소드
-			checkAccount(oos, ois, ac_num);
-			// 계좌에 비밀번호가 맞는지 판별하는 메소드
-			// 만약 사용자가 '0'을 입력하면 메뉴로 탈출
-			boolean escape = checkPw(oos, ois, ac_num);
+			// 계좌번호가 있는지 확인하기 위해 서버로 계좌번호를 보내는 메소드
+			sendAccount(oos, ois, ac_num);
+			// 계좌에 비밀번호가 맞는지 확인하기 위해 서버로 비밀번호를 보내는 메소드
+			boolean escape = sendPw(oos, ois, ac_num);
 			if (escape) {break A;}
 			printBar();
 			System.out.println("계좌를 해지중입니다...");
@@ -77,11 +76,10 @@ public class ATM {
 			oos.flush();
 			// 계좌번호가 정규표현식에 적합해야 변수에 저장
 			ac_num = regexAccount();
-			// 계좌번호가 유효한지 확인하는 메소드
-			checkAccount(oos, ois, ac_num);
-			// 계좌에 비밀번호가 맞는지 판별하는 메소드
-			// 만약 사용자가 '0'을 입력하면 메뉴로 탈출
-			escape = checkPw(oos, ois, ac_num);
+			// 계좌번호가 있는지 확인하기 위해 서버로 계좌번호를 보내는 메소드
+			sendAccount(oos, ois, ac_num);
+			// 계좌에 비밀번호가 맞는지 확인하기 위해 서버로 비밀번호를 보내는 메소드
+			escape = sendPw(oos, ois, ac_num);
 			if (escape) {break A;}
 			printBar();
 			message = "새로운 ";
@@ -119,8 +117,8 @@ public class ATM {
 			}
 			// 계좌 번호가 정규표현식에 적합해야 변수에 저장
 			ac_num = regexAccount();
-			// 계좌번호가 유효한지 확인하는 메소드
-			checkAccount(oos, ois, ac_num);
+			// 계좌번호가 있는지 확인하기 위해 서버로 계좌번호를 보내는 메소드
+			sendAccount(oos, ois, ac_num);
 			printBar();
 			System.out.println("입금중입니다...");
 			Thread.sleep(1000);
@@ -144,11 +142,10 @@ public class ATM {
 			oos.flush();
 			// 계좌 번호가 정규표현식에 적합해야 변수에 저장
 			ac_num = regexAccount();
-			// 계좌번호가 유효한지 확인하는 메소드
-			checkAccount(oos, ois, ac_num);
-			// 계좌에 비밀번호가 맞는지 판별하는 메소드
-			// 만약 사용자가 '0'을 입력하면 메뉴로 탈출
-			escape = checkPw(oos, ois, ac_num);
+			// 계좌번호가 있는지 확인하기 위해 서버로 계좌번호를 보내는 메소드
+			sendAccount(oos, ois, ac_num);
+			// 계좌에 비밀번호가 맞는지 확인하기 위해 서버로 비밀번호를 보내는 메소드
+			escape = sendPw(oos, ois, ac_num);
 			if (escape) {break A;}
 			result = ois.readUTF();
 			if (result.equals("잔액이 0원이므로 출금할 수 없습니다.")) {
@@ -191,11 +188,10 @@ public class ATM {
 			oos.flush();
 			// 계좌 번호가 정규표현식에 적합해야 변수에 저장
 			ac_num = regexAccount();
-			// 계좌번호가 유효한지 확인하는 메소드
-			checkAccount(oos, ois, ac_num);
-			// 계좌에 비밀번호가 맞는지 판별하는 메소드
-			// 만약 사용자가 '0'을 입력하면 메뉴로 탈출
-			escape = checkPw(oos, ois, ac_num);
+			// 계좌번호가 있는지 확인하기 위해 서버로 계좌번호를 보내는 메소드
+			sendAccount(oos, ois, ac_num);
+			// 계좌에 비밀번호가 맞는지 확인하기 위해 서버로 비밀번호를 보내는 메소드
+			escape = sendPw(oos, ois, ac_num);
 			if (escape) {break A;}
 			result = ois.readUTF();
 			if (result.equals("잔액이 0원이므로 송금할 수 없습니다.")) {
@@ -260,11 +256,10 @@ public class ATM {
 			oos.flush();
 			// 계좌번호가 정규표현식에 적합해야 변수에 저장
 			ac_num = regexAccount();
-			// 계좌번호가 유효한지 확인하는 메소드
-			checkAccount(oos, ois, ac_num);
-			// 계좌에 비밀번호가 맞는지 판별하는 메소드
-			// 만약 사용자가 '0'을 입력하면 메뉴로 탈출
-			escape = checkPw(oos, ois, ac_num);
+			// 계좌번호가 있는지 확인하기 위해 서버로 계좌번호를 보내는 메소드
+			sendAccount(oos, ois, ac_num);
+			// 계좌에 비밀번호가 맞는지 확인하기 위해 서버로 비밀번호를 보내는 메소드
+			escape = sendPw(oos, ois, ac_num);
 			if (escape) {break A;}
 			result = ois.readUTF();
 			System.out.println(result);
@@ -310,7 +305,7 @@ public class ATM {
 		return df.format(balance);
 	}
 
-	private void checkAccount(ObjectOutputStream oos, ObjectInputStream ois, String ac_num) throws IOException {
+	private void sendAccount(ObjectOutputStream oos, ObjectInputStream ois, String ac_num) throws IOException {
 		oos.writeUTF(ac_num);
 		oos.flush();
 		String result = ois.readUTF();
@@ -321,7 +316,7 @@ public class ATM {
 
 	}
 
-	private boolean checkPw(ObjectOutputStream oos, ObjectInputStream ois, String ac_num) throws IOException {
+	private boolean sendPw(ObjectOutputStream oos, ObjectInputStream ois, String ac_num) throws IOException {
 		do {
 			System.out.print("비밀번호(메뉴로 돌아가기 : 0) : ");
 			String ac_pw = scan.next();

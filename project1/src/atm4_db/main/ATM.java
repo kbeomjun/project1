@@ -28,6 +28,7 @@ public class ATM {
 		printBar();
 		A: switch (menu) {
 		case 1:
+			scan.nextLine();
 			Socket socket = new Socket(ip, port);
 			ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
 			ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
@@ -50,6 +51,7 @@ public class ATM {
 			printBar();
 			break;
 		case 2:
+			scan.nextLine();
 			socket = new Socket(ip, port);
 			oos = new ObjectOutputStream(socket.getOutputStream());
 			ois = new ObjectInputStream(socket.getInputStream());
@@ -70,6 +72,7 @@ public class ATM {
 			printBar();
 			break;
 		case 3:
+			scan.nextLine();
 			socket = new Socket(ip, port);
 			oos = new ObjectOutputStream(socket.getOutputStream());
 			ois = new ObjectInputStream(socket.getInputStream());
@@ -101,6 +104,7 @@ public class ATM {
 			break;
 
 		case 4:
+			scan.nextLine();
 			socket = new Socket(ip, port);
 			oos = new ObjectOutputStream(socket.getOutputStream());
 			ois = new ObjectInputStream(socket.getInputStream());
@@ -130,7 +134,7 @@ public class ATM {
 			System.out.println(result);
 			printBar();
 			System.out.print("돌아가려면 엔터를 입력하세요.");
-			scan.nextLine();
+
 			String enter = scan.nextLine();
 			if (enter.equals("\n")) {
 				break;
@@ -138,6 +142,7 @@ public class ATM {
 			break;
 
 		case 5:
+			scan.nextLine();
 			socket = new Socket(ip, port);
 			oos = new ObjectOutputStream(socket.getOutputStream());
 			ois = new ObjectInputStream(socket.getInputStream());
@@ -176,7 +181,7 @@ public class ATM {
 			System.out.println(result);
 			printBar();
 			System.out.print("돌아가려면 엔터를 입력하세요.");
-			scan.nextLine();
+		
 			enter = scan.nextLine();
 			if (enter.equals("\n")) {
 				break;
@@ -184,6 +189,7 @@ public class ATM {
 			break;
 
 		case 6:
+			scan.nextLine();
 			socket = new Socket(ip, port);
 			oos = new ObjectOutputStream(socket.getOutputStream());
 			ois = new ObjectInputStream(socket.getInputStream());
@@ -227,6 +233,7 @@ public class ATM {
 				System.out.println(result);
 				break;
 			}
+			scan.nextLine();
 			// 금액이 정규표현식에 적합해야 변수에 저장
 			str = regexAmount(result);
 			transfer = Integer.parseInt(str);
@@ -244,7 +251,7 @@ public class ATM {
 			System.out.println(result);
 			printBar();
 			System.out.print("돌아가려면 엔터를 입력하세요.");
-			scan.nextLine();
+			
 			enter = scan.nextLine();
 			if (enter.equals("\n")) {
 				break;
@@ -252,6 +259,7 @@ public class ATM {
 			break;
 
 		case 7:
+			scan.nextLine();
 			socket = new Socket(ip, port);
 			oos = new ObjectOutputStream(socket.getOutputStream());
 			ois = new ObjectInputStream(socket.getInputStream());
@@ -280,12 +288,13 @@ public class ATM {
 			}
 			System.out.println("========================================================================");
 			System.out.print("돌아가려면 엔터를 입력하세요.");
-			scan.nextLine();
+			
 			enter = scan.nextLine();
 			if (enter.equals("\n")) {break;}
 			break;
 
 		case 8:
+			scan.nextLine();
 			socket = new Socket(ip, port);
 			oos = new ObjectOutputStream(socket.getOutputStream());
 			ois = new ObjectInputStream(socket.getInputStream());
@@ -297,6 +306,7 @@ public class ATM {
 			break;
 
 		default:
+			scan.nextLine();
 			socket = new Socket(ip, port);
 			oos = new ObjectOutputStream(socket.getOutputStream());
 			ois = new ObjectInputStream(socket.getInputStream());
@@ -326,7 +336,7 @@ public class ATM {
 	private boolean sendPw(ObjectOutputStream oos, ObjectInputStream ois, String ac_num) throws IOException {
 		do {
 			System.out.print("비밀번호(메뉴로 돌아가기 : 0) : ");
-			String ac_pw = scan.next();
+			String ac_pw = scan.nextLine();
 			oos.writeUTF(ac_pw);
 			oos.flush();
 			String result = ois.readUTF();
@@ -347,9 +357,10 @@ public class ATM {
 
 	private String regexAmount(String message) {
 		String str;
+		
 		do {
 			System.out.print(message);
-			str = scan.next();
+			str = scan.nextLine();
 			String regex = "^\\d{0,10}$";
 			if (!Pattern.matches(regex, str)) {
 				System.out.println("올바른 금액을 입력하세요.");
@@ -364,7 +375,7 @@ public class ATM {
 		String ac_pw;
 		do {
 			System.out.print(message + "비밀번호(4자리) : ");
-			ac_pw = scan.next();
+			ac_pw = scan.nextLine();
 			String regex = "^\\d{4}$";
 			if (!Pattern.matches(regex, ac_pw)) {
 				System.out.println("잘못된 비밀번호 형식입니다. 다시 입력하세요.");
@@ -377,7 +388,6 @@ public class ATM {
 
 	private String regexAccount() {
 		String ac_num;
-		scan.nextLine();
 		do {
 			System.out.print("계좌번호 : ");
 			ac_num = scan.nextLine();
@@ -395,7 +405,7 @@ public class ATM {
 		String ac_name;
 		do {
 			System.out.print("예금주명 : ");
-			ac_name = scan.next();
+			ac_name = scan.nextLine();
 			String regex = "^[가-힣]{2,4}$";
 			if (!Pattern.matches(regex, ac_name)) {
 				System.out.println("잘못된 이름입니다. 다시 입력하세요.");
@@ -410,7 +420,7 @@ public class ATM {
 		String search;
 		do {
 			System.out.print("송금할 계좌번호 혹은 예금주명 : ");
-			search = scan.next();
+			search = scan.nextLine();
 			String regex = "^[가-힣]{1,4}$";
 			String regex2 = "^1010-\\d{4}$";
 			if (!Pattern.matches(regex, search) && !Pattern.matches(regex2, search)) {

@@ -58,7 +58,8 @@ public class ATM {
 			// 계좌번호가 정규표현식에 적합해야 변수에 저장
 			ac_num = regexAccount();
 			// 계좌번호가 있는지 확인하기 위해 서버로 계좌번호를 보내는 메소드
-			sendAccount(oos, ois, ac_num);
+			boolean isTrue = sendAccount(oos, ois, ac_num);
+			if(!isTrue) {break;} 
 			// 계좌에 비밀번호가 맞는지 확인하기 위해 서버로 비밀번호를 보내는 메소드
 			boolean escape = sendPw(oos, ois, ac_num);
 			if (escape) {break A;}
@@ -77,10 +78,11 @@ public class ATM {
 			// 계좌번호가 정규표현식에 적합해야 변수에 저장
 			ac_num = regexAccount();
 			// 계좌번호가 있는지 확인하기 위해 서버로 계좌번호를 보내는 메소드
-			sendAccount(oos, ois, ac_num);
+			isTrue = sendAccount(oos, ois, ac_num);
+			if(!isTrue) {break;} 
 			// 계좌에 비밀번호가 맞는지 확인하기 위해 서버로 비밀번호를 보내는 메소드
 			escape = sendPw(oos, ois, ac_num);
-			if (escape) {break A;}
+			if(escape) {break A;}
 			printBar();
 			message = "새로운 ";
 			// 새 비밀번호가 정규표현식에 정합해야 변수에 저장
@@ -118,7 +120,8 @@ public class ATM {
 			// 계좌 번호가 정규표현식에 적합해야 변수에 저장
 			ac_num = regexAccount();
 			// 계좌번호가 있는지 확인하기 위해 서버로 계좌번호를 보내는 메소드
-			sendAccount(oos, ois, ac_num);
+			isTrue = sendAccount(oos, ois, ac_num);
+			if(!isTrue) {break;} 
 			printBar();
 			System.out.println("입금중입니다...");
 			Thread.sleep(1000);
@@ -143,7 +146,8 @@ public class ATM {
 			// 계좌 번호가 정규표현식에 적합해야 변수에 저장
 			ac_num = regexAccount();
 			// 계좌번호가 있는지 확인하기 위해 서버로 계좌번호를 보내는 메소드
-			sendAccount(oos, ois, ac_num);
+			isTrue = sendAccount(oos, ois, ac_num);
+			if(!isTrue) {break;} 
 			// 계좌에 비밀번호가 맞는지 확인하기 위해 서버로 비밀번호를 보내는 메소드
 			escape = sendPw(oos, ois, ac_num);
 			if (escape) {break A;}
@@ -188,7 +192,8 @@ public class ATM {
 			// 계좌 번호가 정규표현식에 적합해야 변수에 저장
 			ac_num = regexAccount();
 			// 계좌번호가 있는지 확인하기 위해 서버로 계좌번호를 보내는 메소드
-			sendAccount(oos, ois, ac_num);
+			isTrue = sendAccount(oos, ois, ac_num);
+			if(!isTrue) {break;} 
 			// 계좌에 비밀번호가 맞는지 확인하기 위해 서버로 비밀번호를 보내는 메소드
 			escape = sendPw(oos, ois, ac_num);
 			if (escape) {break A;}
@@ -255,7 +260,8 @@ public class ATM {
 			// 계좌번호가 정규표현식에 적합해야 변수에 저장
 			ac_num = regexAccount();
 			// 계좌번호가 있는지 확인하기 위해 서버로 계좌번호를 보내는 메소드
-			sendAccount(oos, ois, ac_num);
+			isTrue = sendAccount(oos, ois, ac_num);
+			if(!isTrue) {break;} 
 			// 계좌에 비밀번호가 맞는지 확인하기 위해 서버로 비밀번호를 보내는 메소드
 			escape = sendPw(oos, ois, ac_num);
 			if (escape) {break A;}
@@ -306,15 +312,15 @@ public class ATM {
 		return df.format(balance);
 	}
 
-	private void sendAccount(ObjectOutputStream oos, ObjectInputStream ois, String ac_num) throws IOException {
+	private boolean sendAccount(ObjectOutputStream oos, ObjectInputStream ois, String ac_num) throws IOException {
 		oos.writeUTF(ac_num);
 		oos.flush();
 		String result = ois.readUTF();
 		if (result.equals("없는 계좌입니다.")) {
 			System.out.println(result);
-			return;
+			return false;
 		}
-
+		return true;
 	}
 
 	private boolean sendPw(ObjectOutputStream oos, ObjectInputStream ois, String ac_num) throws IOException {
@@ -371,9 +377,10 @@ public class ATM {
 
 	private String regexAccount() {
 		String ac_num;
+		scan.nextLine();
 		do {
 			System.out.print("계좌번호 : ");
-			ac_num = scan.next();
+			ac_num = scan.nextLine();
 			String regex = "^1010-\\d{4}$";
 			if (!Pattern.matches(regex, ac_num)) {
 				System.out.println("잘못된 계좌번호입니다. 다시 입력하세요.");

@@ -240,7 +240,7 @@ public class ATM {
 			oos.writeInt(transfer);
 			oos.flush();
 			result = ois.readUTF();
-			if (result.equals(transfer + "원은 송금할 수 없습니다.")) {
+			if (result.equals(balanceFormat(transfer) + "원은 송금할 수 없습니다.")) {
 				System.out.println(result);
 				break;
 			}
